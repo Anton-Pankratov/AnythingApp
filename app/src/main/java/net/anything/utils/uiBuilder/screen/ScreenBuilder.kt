@@ -13,6 +13,8 @@ interface ScreenBuilder : Builder {
 
     fun ConstraintLayout.addNewItemButton()
 
+    fun ConstraintLayout.add(view: View, constraintSet: ConstraintSet, connects: () -> Unit)
+
     fun ConstraintLayout.setConstraints(
         constraintSet: ConstraintSet, connects: () -> Unit
     ): ConstraintSet
@@ -20,5 +22,4 @@ interface ScreenBuilder : Builder {
     fun ConstraintSet.makeConnect(
         startViewId: Int, startViewSide: Int, endViewId: Int, endViewSide: Int
     )
-
 }
