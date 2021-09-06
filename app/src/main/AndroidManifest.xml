@@ -3,11 +3,23 @@
     package="net.anything.anythingapp">
 
     <application
-        android:allowBackup="true"
+        android:name="net.anything.AnythingApp"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AnythingApp" />
+        android:theme="@style/Theme.AnythingApp">
+
+        <activity
+            android:name="net.anything.ui.MainActivity"
+            android:theme="@style/Theme.AnythingApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+    </application>
 
 </manifest>

@@ -1,7 +1,3 @@
-rootProject.apply {
-    rootProject.file("libraries.gradle")
-}
-
 android {
     compileSdk 30
 

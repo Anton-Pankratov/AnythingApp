@@ -13,3 +13,26 @@ android {
         applicationId "net.app.anythingapp"
     }
 }
+
+dependencies {
+
+    /** Project Modules */
+    implementation project(':domain')
+    implementation project(':data')
+
+    /** Android API Extension */
+    implementation "androidx.core:core-ktx:$coreKtx"
+
+    /**//** APIs Support */
+    implementation "androidx.appcompat:appcompat:$appCompat"
+
+    /** Material Design */
+    implementation "com.google.android.material:material:$materialDesign"
+
+    /** Lifecycle */
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExt"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle"
+}
