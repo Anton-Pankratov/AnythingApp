@@ -3,7 +3,7 @@ package net.anything.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import net.anything.domain.di.locateLazy
-import net.anything.utils.screenBuilder.ScreenBuilder
+import net.anything.utils.uiBuilder.screen.ScreenBuilder
 
 class MainActivity : AppCompatActivity() {
 

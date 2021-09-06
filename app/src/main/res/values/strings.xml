@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AnythingApp</string>
+
+    <string name="button_add_new_thing">Add new thing</string>
 </resources>
