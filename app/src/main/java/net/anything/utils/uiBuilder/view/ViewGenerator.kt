@@ -1,6 +1,5 @@
 package net.anything.utils.uiBuilder.view
 
-import android.view.View
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import net.anything.utils.uiBuilder.Builder

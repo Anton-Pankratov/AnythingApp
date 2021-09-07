@@ -10,9 +10,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
 import net.anything.utils.getStringRes
-import net.anything.utils.uiParams.MatchParent
-import net.anything.utils.uiParams.WrapContent
-import net.anything.utils.uiParams.actionBarSize
+import net.anything.utils.uiBuilder.sizes.MatchParent
+import net.anything.utils.uiBuilder.sizes.WrapContent
+import net.anything.utils.uiBuilder.sizes.actionBarSize
 import java.util.concurrent.atomic.AtomicInteger
 
 class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
