@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "item")
 data class StoredThingEntity(
     @PrimaryKey val id: Int,
-    val sign1: String?,
-    val sign2: String?,
-    val sign3: String?
+    val sign1: StoredSign? = null,
+    val sign2: StoredSign? = null,
+    val sign3: StoredSign? = null
 )

@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
 import net.anything.utils.uiBuilder.sizes.MatchParent
 import net.anything.utils.uiBuilder.view.ViewGenerator
-import java.util.*
 
 class ScreenBuilderImpl(
     private val activityContext: Context,

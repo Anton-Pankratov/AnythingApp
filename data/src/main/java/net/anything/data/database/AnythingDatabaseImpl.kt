@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import net.anything.data.entities.StoredThingEntity
-import net.anything.data.entities.StoredSignEntity
+import net.anything.data.entities.StoredSign
 
-@Database(entities = [StoredThingEntity::class, StoredSignEntity::class], version = 1, exportSchema = false)
+@Database(entities = [StoredThingEntity::class, StoredSign::class], version = 1, exportSchema = false)
 abstract class AnythingDatabaseImpl : RoomDatabase(), AnythingDatabase {
 
     companion object {

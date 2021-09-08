@@ -5,11 +5,13 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
 import net.anything.utils.getStringRes
+import net.anything.utils.uiBuilder.list.ThingItem
 import net.anything.utils.uiBuilder.sizes.MatchParent
 import net.anything.utils.uiBuilder.sizes.WrapContent
 import net.anything.utils.uiBuilder.sizes.actionBarSize
@@ -39,8 +41,26 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
                 setLayoutParams(MatchParent, WrapContent)
                 text = getStringRes(R.string.button_add_new_thing)
                 setTextColor(Color.WHITE)
-                background = ContextCompat.getDrawable(context, R.color.design_default_color_primary_variant)
+                background = ContextCompat.getDrawable(
+                    context, R.color.design_default_color_primary_variant
+                )
             }
+        }
+    }
+
+    override fun createThingItem(signs: Map<String?, String?>): ThingItem {
+        return ThingItem(context).apply {
+            signs.entries.forEach {
+                addView(createThingSign(it.key, it.value))
+            }
+        }
+    }
+
+    override fun createThingSign(header: String?, value: String?): TextView {
+        val signText = "$header: $value"
+        return TextView(context).apply {
+            setLayoutParams(WrapContent, WrapContent)
+            text = signText
         }
     }
 

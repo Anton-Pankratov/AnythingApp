@@ -12,6 +12,12 @@ class ThingViewHolder(private val view: ThingItem) : RecyclerView.ViewHolder(vie
 
     fun onBind(thing: ShowThingEntity) {
         this.thing = thing
+
+      /*  thing.apply {
+            view.create(mapOf(
+                sign1?.header to sign1?.value,
+                sign2?.header to sign2?.value)
+        }*/
     }
 
     companion object {

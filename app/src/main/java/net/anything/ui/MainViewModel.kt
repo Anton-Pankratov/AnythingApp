@@ -1,5 +1,7 @@
 package net.anything.ui
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainViewModel : ViewModel() {
 
 }
