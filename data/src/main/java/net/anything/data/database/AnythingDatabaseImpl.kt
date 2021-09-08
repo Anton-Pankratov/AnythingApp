@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import net.anything.data.entities.StoredItem
-import net.anything.data.entities.StoredSign
+import net.anything.data.entities.StoredThingEntity
+import net.anything.data.entities.StoredSignEntity
 
-@Database(entities = [StoredItem::class, StoredSign::class], version = 1, exportSchema = false)
+@Database(entities = [StoredThingEntity::class, StoredSignEntity::class], version = 1, exportSchema = false)
 abstract class AnythingDatabaseImpl : RoomDatabase(), AnythingDatabase {
 
     companion object {
