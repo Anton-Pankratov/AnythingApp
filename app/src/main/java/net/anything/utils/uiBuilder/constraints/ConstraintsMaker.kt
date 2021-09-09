@@ -10,10 +10,15 @@ interface ConstraintsMaker {
         constraintSet: ConstraintSet, connects: () -> Unit
     ): ConstraintSet
 
-    fun ConstraintSet.connectToTop(view: View)
-    fun ConstraintSet.connectToBottom(view: View)
-    fun ConstraintSet.connectToStart(view: View)
-    fun ConstraintSet.connectToEnd(view: View)
+    fun ConstraintSet.connectToUpperView(view: View, anchor: View)
+
+    fun ConstraintSet.connectToParentTop(view: View)
+
+    fun ConstraintSet.connectToParentBottom(view: View)
+
+    fun ConstraintSet.connectToParentStart(view: View)
+
+    fun ConstraintSet.connectToParentEnd(view: View)
 
     fun ConstraintSet.makeConnect(
         startViewId: Int, startViewSide: Int, endViewId: Int, endViewSide: Int

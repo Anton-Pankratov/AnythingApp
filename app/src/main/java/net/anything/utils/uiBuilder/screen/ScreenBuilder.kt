@@ -13,6 +13,8 @@ interface ScreenBuilder : Builder {
 
     fun ConstraintLayout.addNewItemButton()
 
+    fun ConstraintLayout.addThingsView()
+
     fun ConstraintLayout.add(
         view: View,
         constraintSet: ConstraintSet,

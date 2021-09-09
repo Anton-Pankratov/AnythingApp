@@ -17,6 +17,6 @@ class ThingItem @JvmOverloads constructor(
     init { orientation = VERTICAL }
 
     fun create(signs: Map<String?, String?>) {
-        viewGenerator.createThingItem(signs)
+        addView(viewGenerator.createThingItem(signs))
     }
 }

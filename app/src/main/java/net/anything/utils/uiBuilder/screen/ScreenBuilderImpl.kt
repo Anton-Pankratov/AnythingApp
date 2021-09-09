@@ -19,6 +19,7 @@ class ScreenBuilderImpl(
         return ConstraintLayout(activityContext).apply {
             setLayoutParams(MatchParent, MatchParent)
             addToolbar()
+            addThingsView()
             addNewItemButton()
         }
     }
@@ -28,9 +29,9 @@ class ScreenBuilderImpl(
             ConstraintSet().apply {
                 viewGenerator.toolbar.let { view ->
                     add(view, this) {
-                        connectToStart(view)
-                        connectToTop(view)
-                        connectToEnd(view)
+                        connectToParentStart(view)
+                        connectToParentTop(view)
+                        connectToParentEnd(view)
                     }
                 }
             }
@@ -42,9 +43,25 @@ class ScreenBuilderImpl(
             ConstraintSet().apply {
                 viewGenerator.addNewItemButton.let { view ->
                     add(view, this) {
-                        connectToStart(view)
-                        connectToBottom(view)
-                        connectToEnd(view)
+                        connectToParentStart(view)
+                        connectToParentBottom(view)
+                        connectToParentEnd(view)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun ConstraintLayout.addThingsView() {
+        with(constraintsMaker) {
+            ConstraintSet().apply {
+                viewGenerator.thingsView.let { view ->
+                    add(view, this) {
+                        connectToParentStart(view)
+                        connectToParentEnd(view)
+                        connectToUpperView(view,
+                            viewGenerator.toolbar
+                        )
                     }
                 }
             }
