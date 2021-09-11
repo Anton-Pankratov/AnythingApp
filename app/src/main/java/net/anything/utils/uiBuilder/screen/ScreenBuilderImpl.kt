@@ -1,37 +1,45 @@
 package net.anything.utils.uiBuilder.screen
 
-import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.FragmentManager
+import net.anything.utils.transactions.Transactions
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
 import net.anything.utils.uiBuilder.sizes.MatchParent
 import net.anything.utils.uiBuilder.view.ViewGenerator
 
 class ScreenBuilderImpl(
-    private val activityContext: Context,
     private val viewGenerator: ViewGenerator,
-    private val constraintsMaker: ConstraintsMaker
+    private val constraintsMaker: ConstraintsMaker,
+    private val transactions: Transactions
 ) : ScreenBuilder {
 
-    override fun buildContentView(): View {
-        return ConstraintLayout(activityContext).apply {
+    override fun buildContentView(fragmentManager: FragmentManager): View {
+        return viewGenerator.root.apply {
             setLayoutParams(MatchParent, MatchParent)
-            addToolbar()
+            addToolbar(fragmentManager)
             addThingsView()
             addNewItemButton()
         }
     }
 
-    override fun ConstraintLayout.addToolbar() {
+    override fun ConstraintLayout.addToolbar(fragmentManager: FragmentManager) {
         with(constraintsMaker) {
-            ConstraintSet().apply {
-                viewGenerator.toolbar.let { view ->
-                    add(view, this) {
-                        connectToParentStart(view)
-                        connectToParentTop(view)
-                        connectToParentEnd(view)
+            ConstraintSet().let { set ->
+                viewGenerator.apply {
+                    toolbar.let { view ->
+                        add(view, set) {
+                            set.connectToParentStart(view)
+                            set.connectToParentTop(view)
+                            set.connectToParentEnd(view)
+                        }
+                        view.menu.addFilter {
+                            transactions.apply {
+                                fragmentManager.openPreferencesScreen(root)
+                            }
+                        }
                     }
                 }
             }
@@ -59,7 +67,8 @@ class ScreenBuilderImpl(
                     add(view, this) {
                         connectToParentStart(view)
                         connectToParentEnd(view)
-                        connectToUpperView(view,
+                        connectToUpperView(
+                            view,
                             viewGenerator.toolbar
                         )
                     }

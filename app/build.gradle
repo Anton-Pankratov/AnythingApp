@@ -37,4 +37,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExt"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle"
+
+    /** Preferences */
+    implementation "androidx.preference:preference-ktx:$preference"
 }

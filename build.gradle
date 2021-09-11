@@ -12,6 +12,7 @@ buildscript {
         room            = '2.3.0'
         coroutines      = '1.4.2'
         jackson         = '2.12.5'
+        preference      = '1.1.1'
     }
 
     repositories {

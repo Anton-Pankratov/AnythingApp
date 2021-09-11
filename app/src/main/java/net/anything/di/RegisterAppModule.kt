@@ -3,6 +3,9 @@ package net.anything.di
 import android.content.Context
 import net.anything.domain.di.ServiceLocator
 import net.anything.domain.di.locate
+import net.anything.ui.main.MainViewModel
+import net.anything.utils.transactions.Transactions
+import net.anything.utils.transactions.TransactionsImpl
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
 import net.anything.utils.uiBuilder.constraints.ConstraintsMakerImpl
 import net.anything.utils.uiBuilder.screen.ScreenBuilder
@@ -14,6 +17,7 @@ fun RegisterAppModule(context: Context) {
 
     ServiceLocator.apply {
         register(context)
+        register<Transactions>(TransactionsImpl())
         register<ConstraintsMaker>(ConstraintsMakerImpl())
         register<ViewGenerator>(ViewGeneratorImpl(locate()))
         register<ScreenBuilder>(ScreenBuilderImpl(locate(), locate(), locate()))
