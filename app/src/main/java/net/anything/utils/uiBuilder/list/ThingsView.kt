@@ -18,6 +18,7 @@ class ThingsView @JvmOverloads constructor(
 
     init {
         layoutManager = LinearLayoutManager(context)
+        adapter = thingsAdapter
     }
 
     fun submit(things: List<ShowThingEntity>) {

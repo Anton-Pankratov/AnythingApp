@@ -7,11 +7,14 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
 import net.anything.utils.getStringRes
 import net.anything.utils.uiBuilder.list.ThingItem
+import net.anything.utils.uiBuilder.list.ThingsView
+import net.anything.utils.uiBuilder.list.adapter.ThingsAdapter
 import net.anything.utils.uiBuilder.sizes.MatchParent
 import net.anything.utils.uiBuilder.sizes.WrapContent
 import net.anything.utils.uiBuilder.sizes.actionBarSize
@@ -45,6 +48,11 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
                     context, R.color.design_default_color_primary_variant
                 )
             }
+        }
+    }
+    override val thingsView: ThingsView by lazy {
+        ThingsView(context).apply {
+            id = generateId()
         }
     }
 

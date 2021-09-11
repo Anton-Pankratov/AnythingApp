@@ -1,13 +1,12 @@
 package net.anything
 
-import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDexApplication
 import net.anything.anythingapp.R
 import net.anything.data.di.di.RegisterDataModule
 import net.anything.di.RegisterAppModule
-import net.anything.ui.MainActivity
 
-class AnythingApp : Application() {
+class AnythingApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

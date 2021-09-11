@@ -11,6 +11,8 @@ apply {
 android {
     defaultConfig {
         applicationId "net.app.anythingapp"
+
+        multiDexEnabled true
     }
 }
 
