@@ -6,14 +6,18 @@ import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentContainer
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
 import net.anything.utils.getPrimaryColor
 import net.anything.utils.getStringRes
+import net.anything.utils.transactions.OnTransaction
+import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.list.ThingItem
 import net.anything.utils.uiBuilder.list.ThingsView
 import net.anything.utils.uiBuilder.sizes.MatchParent
@@ -24,6 +28,21 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
 
+    /**
+     * Main Activity
+     */
+
+    override val fragmentContainer: FrameLayout by lazy {
+        FrameLayout(context).apply {
+            id = generateId()
+            setLayoutParams(MatchParent, MatchParent)
+        }
+    }
+
+    /**
+     * Root Layout for Fragments
+     */
+
     override val root: ConstraintLayout by lazy {
         ConstraintLayout(context).apply {
             id = generateId()
@@ -31,18 +50,24 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         }
     }
 
-    override val toolbar: MaterialToolbar by lazy {
-        MaterialToolbar(context).apply {
-            id = generateId()
-            context.apply {
-                setLayoutParams(MatchParent, actionBarSize)
-                title = getStringRes(R.string.app_name)
-                isTitleCentered = true
-                background = getPrimaryColor()
-                setTitleTextColor(Color.WHITE)
+    /**
+     * Action Bar Settings
+     */
+
+    override fun Menu.addFilter(listener: OnTransaction) {
+        add(0, 1, Menu.NONE, "Sort").apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            setIcon(R.drawable.ic_filter)
+            setOnMenuItemClickListener {
+                listener.begin(Screens.FILTER)
+                return@setOnMenuItemClickListener true
             }
         }
     }
+
+    /**
+     * Things Fragment
+     */
 
     override val addNewItemButton: MaterialButton by lazy {
         MaterialButton(context).apply {
@@ -55,20 +80,10 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
             }
         }
     }
+
     override val thingsView: ThingsView by lazy {
         ThingsView(context).apply {
             id = generateId()
-        }
-    }
-
-    override fun Menu.addFilter(listener: ViewGenerator.OnFilterClickListener) {
-        add(0, 1, Menu.NONE, "Sort").apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            setIcon(R.drawable.ic_filter)
-            setOnMenuItemClickListener {
-                listener.onClick()
-                return@setOnMenuItemClickListener true
-            }
         }
     }
 

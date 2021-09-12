@@ -12,7 +12,7 @@
         android:theme="@style/Theme.AnythingApp">
 
         <activity
-            android:name="net.anything.ui.main.MainActivity"
+            android:name="net.anything.ui.MainActivity"
             android:theme="@style/Theme.AnythingApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

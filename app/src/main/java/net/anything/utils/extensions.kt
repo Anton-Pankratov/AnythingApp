@@ -1,6 +1,8 @@
 package net.anything.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -9,6 +11,17 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import net.anything.anythingapp.R
 import kotlin.math.roundToInt
+
+fun Context.getActivity(): Activity? {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
+}
 
 fun Context.getStringRes(@StringRes res: Int): String {
     return resources.getString(res)
