@@ -2,4 +2,8 @@
     <string name="app_name">AnythingApp</string>
 
     <string name="button_add_new_thing">Add new thing</string>
+
+    <string name="field_category">Category</string>
+    <string name="field_name">Name</string>
+
 </resources>

@@ -1,15 +1,14 @@
-package net.anything.utils.uiBuilder.screen
+package net.anything.utils.uiBuilder.screenBuilder
 
 import android.view.Menu
 import android.view.View
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
-import net.anything.utils.uiBuilder.sizes.MatchParent
-import net.anything.utils.uiBuilder.view.ViewGenerator
+import net.anything.ui.things.view.ThingsView
+import net.anything.utils.uiBuilder.viewGenerator.ViewGenerator
 
 class ScreenBuilderImpl(
     private val viewGenerator: ViewGenerator,
@@ -41,9 +40,11 @@ class ScreenBuilderImpl(
      * in [net.anything.ui.things.ThingsFragment]
      */
 
+    override val thingsView: ThingsView
+        get() = viewGenerator.thingsView
+
     override fun buildThingsScreen(listener: OnTransaction): View {
         return viewGenerator.root.apply {
-            setLayoutParams(MatchParent, MatchParent)
             addNewItemButton(listener)
             addThingsView()
         }
@@ -96,16 +97,10 @@ class ScreenBuilderImpl(
     }
 
     /**
-     * Root Layout for Fragments
-     * in [net.anything.ui.things.ThingsFragment]
-     * and [net.anything.ui.filter.FilterFragment]
+     * Create Thing Fragment
      */
 
-    override fun buildFilterScreen(): View {
+    override fun buildCreateThingDialog(): View {
         return viewGenerator.root
-    }
-
-    override fun View.setLayoutParams(width: Int, height: Int) {
-        layoutParams = LinearLayout.LayoutParams(width, height)
     }
 }

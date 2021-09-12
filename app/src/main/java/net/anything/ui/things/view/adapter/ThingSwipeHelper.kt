@@ -1,4 +1,4 @@
-package net.anything.utils.uiBuilder.list.adapter
+package net.anything.ui.things.view.adapter
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import net.anything.entity.ShowThingEntity

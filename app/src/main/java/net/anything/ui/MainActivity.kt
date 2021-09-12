@@ -1,10 +1,8 @@
 package net.anything.ui
 
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.FrameLayout
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
@@ -48,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private fun showCreatingNewThingDialog() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .showCreatingNewThingDialog()
+                .showCreatingNewThingScreen(container as FrameLayout)
         }
     }
 }

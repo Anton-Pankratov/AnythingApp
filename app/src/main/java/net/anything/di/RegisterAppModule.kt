@@ -7,10 +7,10 @@ import net.anything.utils.transactions.Transactor
 import net.anything.utils.transactions.TransactorImpl
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
 import net.anything.utils.uiBuilder.constraints.ConstraintsMakerImpl
-import net.anything.utils.uiBuilder.screen.ScreenBuilder
-import net.anything.utils.uiBuilder.screen.ScreenBuilderImpl
-import net.anything.utils.uiBuilder.view.ViewGenerator
-import net.anything.utils.uiBuilder.view.ViewGeneratorImpl
+import net.anything.utils.uiBuilder.screenBuilder.ScreenBuilder
+import net.anything.utils.uiBuilder.screenBuilder.ScreenBuilderImpl
+import net.anything.utils.uiBuilder.viewGenerator.ViewGenerator
+import net.anything.utils.uiBuilder.viewGenerator.ViewGeneratorImpl
 
 fun RegisterAppModule(context: Context) {
 

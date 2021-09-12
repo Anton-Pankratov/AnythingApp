@@ -1,17 +1,14 @@
-package net.anything.utils.uiBuilder.list
+package net.anything.ui.things.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import net.anything.entity.ShowThingEntity
-import net.anything.utils.toDp
-import net.anything.utils.uiBuilder.list.adapter.ThingsAdapter
-import net.anything.utils.uiBuilder.sizes.MatchParent
-import net.anything.utils.uiBuilder.sizes.WrapContent
-import net.anything.utils.uiBuilder.sizes.margin16dp
+import net.anything.ui.things.view.adapter.ThingsAdapter
+import net.anything.utils.uiBuilder.MatchParent
+import net.anything.utils.uiBuilder.WrapContent
 
 class ThingsView @JvmOverloads constructor(
     context: Context,
@@ -21,7 +18,9 @@ class ThingsView @JvmOverloads constructor(
 
     private val thingsAdapter by lazy { ThingsAdapter() }
 
-    init { setParams() }
+    init {
+        setParams()
+    }
 
     fun submit(things: List<ShowThingEntity>) {
         thingsAdapter.submitList(things)
@@ -31,5 +30,10 @@ class ThingsView @JvmOverloads constructor(
         layoutParams = LayoutParams(MatchParent, WrapContent)
         layoutManager = LinearLayoutManager(context)
         adapter = thingsAdapter
+        addItemDecoration(
+            DividerItemDecoration(
+                this.context, LinearLayoutManager.VERTICAL
+            )
+        )
     }
 }

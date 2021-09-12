@@ -1,4 +1,4 @@
-package net.anything.utils.uiBuilder.sizes
+package net.anything.utils.uiBuilder
 
 import android.content.Context
 import android.widget.LinearLayout
@@ -8,8 +8,9 @@ import net.anything.utils.toDp
 val MatchParent = UiSizes.MATCH_PARENT.size
 val WrapContent = UiSizes.WRAP_CONTENT.size
 
-fun Context.margin10dp() = toDp(10)
-fun Context.margin16dp() = toDp(16)
+fun Context.size6dp() = toDp(6)
+fun Context.size10dp() = toDp(10)
+fun Context.size16dp() = toDp(16)
 
 val Context.actionBarSize
     get() = theme.obtainStyledAttributes(intArrayOf(R.attr.actionBarSize))

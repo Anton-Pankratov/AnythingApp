@@ -1,14 +1,13 @@
-package net.anything.utils.uiBuilder.screen
+package net.anything.utils.uiBuilder.screenBuilder
 
 import android.view.Menu
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.fragment.app.FragmentManager
 import net.anything.utils.transactions.OnTransaction
-import net.anything.utils.uiBuilder.Builder
+import net.anything.ui.things.view.ThingsView
 
-interface ScreenBuilder : Builder {
+interface ScreenBuilder {
 
     /**
      * Fragment Container
@@ -26,6 +25,8 @@ interface ScreenBuilder : Builder {
      * Things Fragment
      */
 
+    val thingsView: ThingsView
+
     fun buildThingsScreen(listener: OnTransaction): View
 
     fun ConstraintLayout.addNewItemButton(listener: OnTransaction)
@@ -39,8 +40,8 @@ interface ScreenBuilder : Builder {
     )
 
     /**
-     * Filter Fragment
+     * Create Thing Fragment
      */
 
-    fun buildFilterScreen(): View
+    fun buildCreateThingDialog(): View
 }

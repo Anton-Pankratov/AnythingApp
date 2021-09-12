@@ -1,7 +1,8 @@
-package net.anything.utils.uiBuilder.view
+package net.anything.utils.uiBuilder.viewGenerator
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
@@ -10,20 +11,19 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.FragmentContainer
-import com.google.android.material.appbar.MaterialToolbar
+import androidx.core.graphics.TypefaceCompat
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
+import net.anything.entity.ShowSign
 import net.anything.utils.getPrimaryColor
 import net.anything.utils.getStringRes
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
-import net.anything.utils.uiBuilder.list.ThingItem
-import net.anything.utils.uiBuilder.list.ThingsView
-import net.anything.utils.uiBuilder.sizes.MatchParent
-import net.anything.utils.uiBuilder.sizes.WrapContent
-import net.anything.utils.uiBuilder.sizes.actionBarSize
-import net.anything.utils.uiBuilder.sizes.margin10dp
+import net.anything.ui.things.view.ThingItem
+import net.anything.ui.things.view.ThingsView
+import net.anything.utils.uiBuilder.MatchParent
+import net.anything.utils.uiBuilder.WrapContent
+import net.anything.utils.uiBuilder.size6dp
 import java.util.concurrent.atomic.AtomicInteger
 
 class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
@@ -74,6 +74,7 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
             id = generateId()
             context.apply {
                 setLayoutParams(MatchParent, WrapContent)
+                tag = "create_thing"
                 text = getStringRes(R.string.button_add_new_thing)
                 background = getPrimaryColor()
                 setTextColor(Color.WHITE)
@@ -87,20 +88,31 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         }
     }
 
-    override fun createThingItem(signs: Map<String?, String?>): ThingItem {
+    override fun createThingItem(signs: List<ShowSign?>): ThingItem {
         return ThingItem(context).apply {
-            signs.entries.forEach {
-                addView(createThingSign(it.key, it.value))
+            signs.forEach {
+                createThingSign(it?.header, it?.value).apply {
+                    if (this != null) addView(this)
+                }
             }
         }
     }
 
-    override fun createThingSign(header: String?, value: String?): TextView {
-        val signText = "$header: $value"
+    override fun createThingHeader(id: Int): TextView {
         return TextView(context).apply {
-            setSignLayoutParams(WrapContent, WrapContent, context.margin10dp())
-            text = signText
+            typeface = TypefaceCompat.create(context, Typeface.MONOSPACE, Typeface.BOLD_ITALIC)
+            "Thing #$id".let { header -> text = header }
         }
+    }
+
+    override fun createThingSign(header: String?, value: String?): TextView? {
+        val signText = "$header : $value"
+        return if (!header.isNullOrEmpty() || !value.isNullOrEmpty()) {
+            TextView(context).apply {
+                setSignLayoutParams(WrapContent, WrapContent, context.size6dp())
+                text = signText
+            }
+        } else null
     }
 
     override fun generateId(): Int {
