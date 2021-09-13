@@ -1,5 +1,6 @@
 package net.anything.ui.things
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
@@ -7,10 +8,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.button.MaterialButton
+import net.anything.anythingapp.R
 import net.anything.entity.ShowSign
 import net.anything.entity.ShowThingEntity
 import net.anything.ui.MainActivity
 import net.anything.utils.getActivity
+import net.anything.utils.getMainActivity
 
 class ThingsFragment : Fragment() {
 
@@ -55,6 +58,11 @@ class ThingsFragment : Fragment() {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.configureActionBar()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.addFilterOption()
         super.onCreateOptionsMenu(menu, inflater)
@@ -64,6 +72,13 @@ class ThingsFragment : Fragment() {
         viewModel.screenBuilder.apply {
             this@addFilterOption
                 .addFilterOption(transactionsListener)
+        }
+    }
+
+    private fun Activity.configureActionBar() {
+        getMainActivity().supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            title = resources.getString(R.string.app_name)
         }
     }
 

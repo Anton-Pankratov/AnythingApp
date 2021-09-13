@@ -19,8 +19,8 @@ class TransactorImpl : Transactor {
         FilterFragment.getInstance().makeTransaction(this, container)
     }
 
-    override fun FragmentManager.showCreatingNewThingScreen(container: FrameLayout) {
-        CreateThingFragment.getInstance().makeTransaction(this, container)
+    override fun FragmentManager.showCreatingNewThingScreen() {
+        CreateThingFragment.getInstance().show(this, "create_thing")
     }
 
     override fun Fragment.makeTransaction(fm: FragmentManager, container: View) {

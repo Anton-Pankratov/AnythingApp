@@ -10,7 +10,11 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import net.anything.anythingapp.R
+import net.anything.ui.MainActivity
 import kotlin.math.roundToInt
+
+fun Activity.getMainActivity() =
+    getActivity() as MainActivity
 
 fun Context.getActivity(): Activity? {
     var context = this

@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private fun showCreatingNewThingDialog() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .showCreatingNewThingScreen(container as FrameLayout)
+                .showCreatingNewThingScreen()
         }
     }
 }

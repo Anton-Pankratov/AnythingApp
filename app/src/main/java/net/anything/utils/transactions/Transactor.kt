@@ -12,7 +12,7 @@ interface Transactor {
 
     fun FragmentManager.openPreferencesScreen(container: FrameLayout)
 
-    fun FragmentManager.showCreatingNewThingScreen(container: FrameLayout)
+    fun FragmentManager.showCreatingNewThingScreen()
 
     fun Fragment.makeTransaction(fm: FragmentManager, container: View)
 }

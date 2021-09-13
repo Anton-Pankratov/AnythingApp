@@ -20,15 +20,21 @@
         <item name="android:inputType">text</item>
         <item name="android:background">@drawable/background_field</item>
         <item name="android:padding">6dp</item>
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="SignHeaderFieldStyle" parent="SignFieldStyle">
         <item name="android:hint">@string/field_category</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <style name="SignValueFieldStyle" parent="SignFieldStyle">
         <item name="android:hint">@string/field_name</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
 </resources>

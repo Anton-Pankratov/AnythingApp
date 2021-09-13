@@ -3,7 +3,16 @@
 
     <string name="button_add_new_thing">Add new thing</string>
 
+    <string name="field_sign_1">Sign #1</string>
+    <string name="field_sign_2">Sign #2</string>
+    <string name="field_sign_3">Sign #3</string>
+
     <string name="field_category">Category</string>
     <string name="field_name">Name</string>
+
+    <string name="filter_action_bar_title">Sort By</string>
+    <string name="filter_categories">Categories</string>
+    <string name="filter_names">Names</string>
+    <string name="filter_sign">Sign %1$s</string>
 
 </resources>

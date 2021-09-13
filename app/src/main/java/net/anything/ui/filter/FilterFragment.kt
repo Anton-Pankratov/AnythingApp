@@ -1,26 +1,38 @@
 package net.anything.ui.filter
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.viewModels
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import net.anything.ui.MainActivity
-import net.anything.utils.getActivity
+import net.anything.anythingapp.R
+import net.anything.domain.di.locateLazy
+import net.anything.utils.getMainActivity
+import net.anything.utils.uiBuilder.preference.PreferenceBuilder
 
 class FilterFragment : PreferenceFragmentCompat() {
 
-    private val viewModel: FilterViewModel by viewModels()
+    private val preferencesBuilder: PreferenceBuilder by locateLazy()
+
+    override fun onResume() {
+        super.onResume()
+        activity?.configureActionBar()
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val context = preferenceManager.context
-        val screen = preferenceManager.createPreferenceScreen(context)
+        with(preferenceManager) {
+            preferencesBuilder.apply {
+                createPreferenceScreen(context).apply {
+                    formScreen(this@with.context)
+                    this@FilterFragment.preferenceScreen = this
+                }
+            }
+        }
+    }
 
-        screen.addPreference(Preference(context).apply {
-            title = "TEST BUTTON"
-        })
-
-        preferenceScreen = screen
+    private fun Activity.configureActionBar() {
+        getMainActivity().supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = resources.getString(R.string.filter_action_bar_title)
+        }
     }
 
     companion object {
