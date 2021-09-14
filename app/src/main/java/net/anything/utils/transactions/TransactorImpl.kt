@@ -26,6 +26,7 @@ class TransactorImpl : Transactor {
     override fun Fragment.makeTransaction(fm: FragmentManager, container: View) {
         fm.beginTransaction()
             .replace(container.id, this)
+            .setReorderingAllowed(true)
             .addToBackStack(null)
             .commit()
     }

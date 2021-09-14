@@ -2,6 +2,8 @@ package net.anything.ui.filter
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 import net.anything.anythingapp.R
 import net.anything.domain.di.locateLazy
@@ -11,6 +13,11 @@ import net.anything.utils.uiBuilder.preference.PreferenceBuilder
 class FilterFragment : PreferenceFragmentCompat() {
 
     private val preferencesBuilder: PreferenceBuilder by locateLazy()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -26,6 +33,11 @@ class FilterFragment : PreferenceFragmentCompat() {
                 }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) activity?.onBackPressed()
+        return super.onOptionsItemSelected(item)
     }
 
     private fun Activity.configureActionBar() {

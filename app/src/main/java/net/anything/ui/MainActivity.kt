@@ -1,9 +1,11 @@
 package net.anything.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import net.anything.ui.things.ThingsFragment
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 
@@ -19,6 +21,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(container)
         openThingsScreen()
+    }
+
+    override fun onBackPressed() {
+        supportFragmentManager.findFragmentById(container.id)
+            .apply {
+                if (this is ThingsFragment)
+                    startActivityInNewTask()
+                else super.onBackPressed()
+            }
     }
 
     val transactionsListener = OnTransaction { screen ->
@@ -47,6 +58,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.transactor.apply {
             supportFragmentManager
                 .showCreatingNewThingScreen()
+        }
+    }
+
+    private fun startActivityInNewTask() {
+        Intent(Intent.ACTION_MAIN).apply {
+            addCategory(Intent.CATEGORY_HOME)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
         }
     }
 }
