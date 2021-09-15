@@ -1,7 +1,6 @@
-package net.anything.entity
+package net.anything.domain.entity
 
 data class ShowSign(
-    val id: Int,
     val header: String?,
     val value: String?
 )

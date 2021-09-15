@@ -42,19 +42,17 @@ class PreferenceBuilderImpl : PreferenceBuilder {
         preferences.forEach { addPreference(it) }
     }
 
-    override fun Context.PreferencesCategory(fieldTag: String, name: String, ): PreferenceCategory {
+    override fun Context.PreferencesCategory(fieldTag: String, name: String): PreferenceCategory {
         return PreferenceCategory(this).apply {
             title = name
         }
     }
 
-    override fun Context.Preference(fieldTag: String, number: String, ): Preference {
+    override fun Context.Preference(fieldTag: String, number: String): Preference {
         return Preference(this).apply {
+            key = "$fieldTag$number"
             icon = signDrawable(number)
             title = number
-           /* onPreferenceClickListener = Preference.OnPreferenceClickListener {
-
-            }*/
         }
     }
 

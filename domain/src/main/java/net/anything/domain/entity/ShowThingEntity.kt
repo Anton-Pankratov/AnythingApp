@@ -1,7 +1,7 @@
-package net.anything.entity
+package net.anything.domain.entity
 
 data class ShowThingEntity(
-    val id: Int,
+    val id: Int? = null,
     val sign1: ShowSign? = null,
     val sign2: ShowSign? = null,
     val sign3: ShowSign? = null

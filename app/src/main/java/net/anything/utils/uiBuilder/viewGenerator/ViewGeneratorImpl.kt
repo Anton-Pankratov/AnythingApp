@@ -8,13 +8,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.TypefaceCompat
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
-import net.anything.entity.ShowSign
+import net.anything.domain.entity.ShowSign
+import net.anything.domain.entity.ShowThingEntity
 import net.anything.utils.getPrimaryColor
 import net.anything.utils.getStringRes
 import net.anything.utils.transactions.OnTransaction
@@ -98,7 +101,7 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         }
     }
 
-    override fun createThingHeader(id: Int): TextView {
+    override fun createThingHeader(id: Int?): TextView {
         return TextView(context).apply {
             typeface = TypefaceCompat.create(context, Typeface.MONOSPACE, Typeface.BOLD_ITALIC)
             "Thing #$id".let { header -> text = header }
@@ -113,6 +116,13 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
                 text = signText
             }
         } else null
+    }
+
+    override fun createDeleteIcon(thing: ShowThingEntity?): ImageView {
+        return ImageView(context).apply {
+            id = generateId()
+            setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_thing_delete))
+        }
     }
 
     override fun generateId(): Int {

@@ -1,10 +1,17 @@
 package net.anything.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceScreen
+import net.anything.data.di.di.RegisterDataModule
+import net.anything.di.RegisterAppModule
+import net.anything.domain.di.RegisterDomainModule
+import net.anything.ui.create.CreateThingFragment
+import net.anything.ui.filter.FilterFragment
 import net.anything.ui.things.ThingsFragment
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
@@ -40,24 +47,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val thingsScreen = ThingsFragment.getInstance()
+    private val preferencesScreen = FilterFragment.getInstance()
+    private val addNewThingDialog = CreateThingFragment.getInstance()
+
     private fun openThingsScreen() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .openThingsScreen(container as FrameLayout)
+                .openScreen(thingsScreen, container as FrameLayout)
         }
     }
 
     private fun openFilterScreen() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .openPreferencesScreen(container as FrameLayout)
+                .openScreen(preferencesScreen, container as FrameLayout)
         }
     }
 
     private fun showCreatingNewThingDialog() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .showCreatingNewThingScreen()
+                .openDialog(addNewThingDialog)
         }
     }
 
@@ -68,4 +79,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(this)
         }
     }
+/*
+    private fun listenAddNewThing() {
+        addNewThingDialog.onAddNewThingClick {
+
+        }
+    }
+
+    private fun listenSelectedFilter() {
+        preferencesScreen.
+    }*/
 }

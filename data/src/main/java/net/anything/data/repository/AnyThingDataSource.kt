@@ -1,9 +1,12 @@
-package net.anything.domain.repository
+package net.anything.data.repository
 
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import net.anything.data.entities.StoredThingEntity
 import net.anything.domain.entity.ShowThingEntity
 
-interface AnythingRepository {
+interface AnyThingDataSource {
 
     val thingsFlow: Flow<List<ShowThingEntity>>
 
@@ -12,5 +15,4 @@ interface AnythingRepository {
     suspend fun updateThing(thing: ShowThingEntity)
 
     suspend fun deleteThing(thing: ShowThingEntity)
-
 }

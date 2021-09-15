@@ -9,6 +9,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.shareIn
 import net.anything.anythingapp.R
 import net.anything.ui.MainActivity
 import kotlin.math.roundToInt

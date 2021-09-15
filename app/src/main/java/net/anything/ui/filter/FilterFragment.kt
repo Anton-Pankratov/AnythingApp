@@ -4,6 +4,8 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import net.anything.anythingapp.R
 import net.anything.domain.di.locateLazy
@@ -11,6 +13,8 @@ import net.anything.utils.getMainActivity
 import net.anything.utils.uiBuilder.preference.PreferenceBuilder
 
 class FilterFragment : PreferenceFragmentCompat() {
+
+    private val viewModel: FilterViewModel by viewModels()
 
     private val preferencesBuilder: PreferenceBuilder by locateLazy()
 
@@ -24,6 +28,11 @@ class FilterFragment : PreferenceFragmentCompat() {
         activity?.configureActionBar()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) activity?.onBackPressed()
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         with(preferenceManager) {
             preferencesBuilder.apply {
@@ -35,9 +44,10 @@ class FilterFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) activity?.onBackPressed()
-        return super.onOptionsItemSelected(item)
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+
+
+        return super.onPreferenceTreeClick(preference)
     }
 
     private fun Activity.configureActionBar() {

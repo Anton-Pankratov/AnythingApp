@@ -1,8 +1,8 @@
 package net.anything.data.database
 
-import net.anything.data.dao.ItemDao
+import net.anything.data.dao.ThingsDao
 
 interface AnythingDatabase {
 
-    val dao: ItemDao
+    val dao: ThingsDao
 }

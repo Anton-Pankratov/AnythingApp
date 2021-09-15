@@ -2,7 +2,7 @@ package net.anything.ui.things.view.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import net.anything.entity.ShowThingEntity
+import net.anything.domain.entity.ShowThingEntity
 
 class ThingsAdapter : ListAdapter<ShowThingEntity, ThingViewHolder>(ThingDiffCallback()) {
 

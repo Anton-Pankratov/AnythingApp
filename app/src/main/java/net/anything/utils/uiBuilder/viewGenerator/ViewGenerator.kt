@@ -3,10 +3,12 @@ package net.anything.utils.uiBuilder.viewGenerator
 import android.view.Menu
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
-import net.anything.entity.ShowSign
+import net.anything.domain.entity.ShowSign
+import net.anything.domain.entity.ShowThingEntity
 import net.anything.utils.transactions.OnTransaction
 import net.anything.ui.things.view.ThingItem
 import net.anything.ui.things.view.ThingsView
@@ -41,9 +43,11 @@ interface ViewGenerator {
 
     fun createThingItem(signs: List<ShowSign?>): ThingItem
 
-    fun createThingHeader(id: Int): TextView
+    fun createThingHeader(id: Int?): TextView
 
     fun createThingSign(header: String?, value: String?): TextView?
+
+    fun createDeleteIcon(thing: ShowThingEntity?): ImageView
 
     fun generateId(): Int
 

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import net.anything.entity.ShowThingEntity
+import net.anything.domain.entity.ShowThingEntity
 import net.anything.ui.things.view.adapter.ThingsAdapter
 import net.anything.utils.uiBuilder.MatchParent
 import net.anything.utils.uiBuilder.WrapContent

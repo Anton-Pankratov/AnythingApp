@@ -5,6 +5,7 @@ import androidx.multidex.MultiDexApplication
 import net.anything.anythingapp.R
 import net.anything.data.di.di.RegisterDataModule
 import net.anything.di.RegisterAppModule
+import net.anything.domain.di.RegisterDomainModule
 
 class AnythingApp : MultiDexApplication() {
 
@@ -24,6 +25,7 @@ class AnythingApp : MultiDexApplication() {
     }
 
     private fun registerServiceLocator(context: Context) {
+        RegisterDomainModule()
         RegisterAppModule(context)
         RegisterDataModule()
     }

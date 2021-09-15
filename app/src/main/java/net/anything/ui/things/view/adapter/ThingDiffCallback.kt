@@ -1,7 +1,7 @@
 package net.anything.ui.things.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import net.anything.entity.ShowThingEntity
+import net.anything.domain.entity.ShowThingEntity
 
 class ThingDiffCallback : DiffUtil.ItemCallback<ShowThingEntity>() {
 

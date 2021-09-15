@@ -6,14 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import net.anything.data.entities.StoredThingEntity
-import net.anything.data.entities.StoredSign
 
 @TypeConverters(Converter::class)
-@Database(entities = [StoredThingEntity::class, StoredSign::class], version = 1, exportSchema = false)
+@Database(entities = [StoredThingEntity::class], version = 1, exportSchema = false)
 abstract class AnythingDatabaseImpl : RoomDatabase(), AnythingDatabase {
 
     companion object {
         fun build(context: Context) =
-            Room.databaseBuilder(context, AnythingDatabaseImpl::class.java, "database").build()
+            Room
+                .databaseBuilder(context, AnythingDatabaseImpl::class.java, "database")
+                .build()
     }
 }

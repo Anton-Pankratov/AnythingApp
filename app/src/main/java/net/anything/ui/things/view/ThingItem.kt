@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import net.anything.domain.di.locateLazy
-import net.anything.entity.ShowThingEntity
+import net.anything.domain.entity.ShowThingEntity
 import net.anything.utils.uiBuilder.MatchParent
 import net.anything.utils.uiBuilder.WrapContent
 import net.anything.utils.uiBuilder.size16dp
@@ -23,11 +23,11 @@ class ThingItem @JvmOverloads constructor(
         setParams()
     }
 
-    fun create(thing: ShowThingEntity) {
+    fun create(thing: ShowThingEntity?) {
         with(thing) {
             viewGenerator.apply {
-                addView(createThingHeader(id))
-                addView(viewGenerator.createThingItem(getSigns()))
+                addView(createThingHeader(this@with?.id))
+                addView(this@with?.let { viewGenerator.createThingItem(it.getSigns()) })
             }
         }
     }

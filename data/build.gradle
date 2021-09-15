@@ -16,6 +16,7 @@ dependencies {
     /** Database **/
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$room"
     kapt "androidx.room:room-compiler:$room"
 
     /** Parser */

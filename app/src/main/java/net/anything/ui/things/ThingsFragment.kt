@@ -3,15 +3,15 @@ package net.anything.ui.things
 import android.app.Activity
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.button.MaterialButton
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import net.anything.anythingapp.R
-import net.anything.entity.ShowSign
-import net.anything.entity.ShowThingEntity
+import net.anything.domain.entity.ShowThingEntity
 import net.anything.ui.MainActivity
+import net.anything.ui.things.view.adapter.ThingSwipeHelper
 import net.anything.utils.getActivity
 import net.anything.utils.getMainActivity
 
@@ -37,25 +37,8 @@ class ThingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-
-        thingsView.submit(
-            listOf(
-                ShowThingEntity(
-                    id = 1,
-                    sign1 = ShowSign(1, "aaa", "bbb"),
-                    sign2 = ShowSign(2, "aaa", "bbb"),
-                    sign3 = ShowSign(3, "aaa", "bbb"),
-                ),
-                ShowThingEntity(
-                    id = 2,
-                    sign1 = ShowSign(1, "ccc", "bbb")
-                ),
-                ShowThingEntity(
-                    id = 3,
-                    sign2 = ShowSign(1, "ccc", "bbb")
-                )
-            )
-        )
+        setSwipeAction()
+        collectThings()
     }
 
     override fun onResume() {
@@ -66,6 +49,19 @@ class ThingsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.addFilterOption()
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun collectThings() {
+        viewModel.thingsFlow.onEach(::submitThings).launchIn(lifecycleScope)
+    }
+
+    private fun submitThings(things: List<ShowThingEntity>) {
+        thingsView.submit(things)
+    }
+
+    private fun setSwipeAction() {
+        ThingSwipeHelper(viewModel::deleteThing)
+            .attachToRecyclerView(thingsView)
     }
 
     private fun Menu.addFilterOption() {
