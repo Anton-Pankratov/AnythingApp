@@ -6,32 +6,28 @@ import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
-import net.anything.anythingapp.R
 
 class PreferenceBuilderImpl : PreferenceBuilder {
 
-    private val tagFirst = Signs.SIGN_ONE.tag
-    private val tagSecond = Signs.SIGN_TWO.tag
-    private val tagThird = Signs.SIGN_THREE.tag
     private val tagCategory = Signs.FIELD_CATEGORY.tag
     private val tagName = Signs.FIELD_NAME.tag
 
     override fun PreferenceScreen.formScreen(context: Context) {
         with(context) {
-            addPreferences(this, resources.getString(R.string.filter_categories), tagCategory)
-            addPreferences(this, resources.getString(R.string.filter_names), tagName)
+            addPreferences(this, tagCategory)
+            addPreferences(this, tagName)
         }
     }
 
-    override fun PreferenceScreen.addPreferences(context: Context, fieldTag: String, title: String) {
+    override fun PreferenceScreen.addPreferences(context: Context, field: String) {
         with(context) {
-            PreferencesCategory(title, fieldTag).apply {
+            PreferencesCategory(field).apply {
                 this@addPreferences.addPreference(this)
                 add(
                     listOf(
-                        Preference(fieldTag, sign(tagFirst)),
-                        Preference(fieldTag, sign(tagSecond)),
-                        Preference(fieldTag, sign(tagThird))
+                        Preference(SignPreference(field, Signs.SIGN_ONE.tag)),
+                        Preference(SignPreference(field, Signs.SIGN_TWO.tag)),
+                        Preference(SignPreference(field, Signs.SIGN_THREE.tag))
                     )
                 )
             }
@@ -42,31 +38,29 @@ class PreferenceBuilderImpl : PreferenceBuilder {
         preferences.forEach { addPreference(it) }
     }
 
-    override fun Context.PreferencesCategory(fieldTag: String, name: String): PreferenceCategory {
+    override fun Context.PreferencesCategory(name: String): PreferenceCategory {
         return PreferenceCategory(this).apply {
             title = name
         }
     }
 
-    override fun Context.Preference(fieldTag: String, number: String): Preference {
+    override fun Context.Preference(tag: SignPreference): Preference {
         return Preference(this).apply {
-            key = "$fieldTag$number"
-            icon = signDrawable(number)
-            title = number
+            with(tag) {
+                key = "$field $sign"
+                icon = signDrawable(sign)
+                title = sign
+            }
         }
     }
 
     private fun Context.signDrawable(number: String): Drawable? {
         return when {
-            number.contains(tagFirst) -> Signs.SIGN_ONE.res
-            number.contains(tagSecond) -> Signs.SIGN_TWO.res
+            number.contains(Signs.SIGN_ONE.tag) -> Signs.SIGN_ONE.res
+            number.contains(Signs.SIGN_TWO.tag) -> Signs.SIGN_TWO.res
             else -> Signs.SIGN_THREE.res
         }?.let { tag ->
             ContextCompat.getDrawable(this, tag)
         }
-    }
-
-    private fun Context.sign(number: String): String {
-        return String.format(resources.getString(R.string.filter_sign), number)
     }
 }

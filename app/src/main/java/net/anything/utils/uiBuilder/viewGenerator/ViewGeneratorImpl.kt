@@ -8,22 +8,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.TypefaceCompat
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
 import net.anything.domain.entity.ShowSign
-import net.anything.domain.entity.ShowThingEntity
 import net.anything.utils.getPrimaryColor
 import net.anything.utils.getStringRes
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
-import net.anything.ui.things.view.ThingItem
-import net.anything.ui.things.view.ThingsView
+import net.anything.ui.things.view.item.ThingItem
+import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.uiBuilder.MatchParent
 import net.anything.utils.uiBuilder.WrapContent
 import net.anything.utils.uiBuilder.size6dp
@@ -62,7 +59,7 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             setIcon(R.drawable.ic_filter)
             setOnMenuItemClickListener {
-                listener.begin(Screens.FILTER)
+                listener.begin(Screens.FILTER, null)
                 return@setOnMenuItemClickListener true
             }
         }
@@ -71,6 +68,8 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
     /**
      * Things Fragment
      */
+
+    // Button
 
     override val addNewItemButton: MaterialButton by lazy {
         MaterialButton(context).apply {
@@ -85,11 +84,15 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         }
     }
 
+    // Recycler View
+
     override val thingsView: ThingsView by lazy {
         ThingsView(context).apply {
             id = generateId()
         }
     }
+
+    // Item for Recycler View
 
     override fun createThingItem(signs: List<ShowSign?>): ThingItem {
         return ThingItem(context).apply {
@@ -118,12 +121,9 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         } else null
     }
 
-    override fun createDeleteIcon(thing: ShowThingEntity?): ImageView {
-        return ImageView(context).apply {
-            id = generateId()
-            setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_thing_delete))
-        }
-    }
+    /**
+     * Common
+     */
 
     override fun generateId(): Int {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {

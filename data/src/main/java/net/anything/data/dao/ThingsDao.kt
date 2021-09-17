@@ -13,9 +13,9 @@ interface ThingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveThing(thing: StoredThingEntity)
 
-    @Update(entity = StoredThingEntity::class)
+    @Update
     suspend fun updateThing(thing: StoredThingEntity)
 
-    @Delete(entity = StoredThingEntity::class)
+    @Delete
     suspend fun deleteThing(thing: StoredThingEntity)
 }

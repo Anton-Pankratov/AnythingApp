@@ -19,5 +19,4 @@ class ThingSwipeCallback(private val onSwiped: (ShowThingEntity) -> Unit) :
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean = false
-
 }

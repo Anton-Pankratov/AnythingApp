@@ -1,17 +1,14 @@
 package net.anything.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceScreen
-import net.anything.data.di.di.RegisterDataModule
-import net.anything.di.RegisterAppModule
-import net.anything.domain.di.RegisterDomainModule
-import net.anything.ui.create.CreateThingFragment
-import net.anything.ui.filter.FilterFragment
+import net.anything.ui.dialog.create.CreateThingFragment
+import net.anything.ui.dialog.update.UpdateThingFragment
+import net.anything.ui.filter.FilterPreferenceFragment
+import net.anything.ui.filter.OnFilterPreferenceClickListener
 import net.anything.ui.things.ThingsFragment
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
@@ -23,6 +20,11 @@ class MainActivity : AppCompatActivity() {
     private val container by lazy {
         viewModel.screenBuilder.buildFragmentContainer()
     }
+
+    private val thingsScreen = ThingsFragment.getInstance()
+    private val filterScreen = FilterPreferenceFragment.getInstance()
+    private val createThingDialog get() = CreateThingFragment.instance()
+    private val updateThingDialog get() = UpdateThingFragment.instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,17 +41,19 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    val transactionsListener = OnTransaction { screen ->
+    val transactionsListener = OnTransaction { screen, selectedThing ->
         when (screen) {
             Screens.THINGS -> openThingsScreen()
             Screens.FILTER -> openFilterScreen()
-            Screens.NEW_THING -> showCreatingNewThingDialog()
+            Screens.NEW_THING -> showCreateThingDialog()
+            Screens.UPDATE_THING -> showUpdateThingDialog(selectedThing)
         }
     }
 
-    private val thingsScreen = ThingsFragment.getInstance()
-    private val preferencesScreen = FilterFragment.getInstance()
-    private val addNewThingDialog = CreateThingFragment.getInstance()
+    fun filterListener(): OnFilterPreferenceClickListener {
+        onBackPressed()
+        return thingsScreen.filterListener
+    }
 
     private fun openThingsScreen() {
         viewModel.transactor.apply {
@@ -61,14 +65,25 @@ class MainActivity : AppCompatActivity() {
     private fun openFilterScreen() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .openScreen(preferencesScreen, container as FrameLayout)
+                .openScreen(filterScreen, container as FrameLayout)
         }
     }
 
-    private fun showCreatingNewThingDialog() {
+    private fun showCreateThingDialog() {
         viewModel.transactor.apply {
             supportFragmentManager
-                .openDialog(addNewThingDialog)
+                .openCreatingThingDialog(createThingDialog)
+        }
+    }
+
+    private fun showUpdateThingDialog(thing: Bundle?) {
+        viewModel.transactor.apply {
+            supportFragmentManager
+                .openUpdatingThingDialog(
+                    updateThingDialog.apply {
+                        arguments = thing
+                    }
+                )
         }
     }
 
@@ -79,14 +94,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(this)
         }
     }
-/*
-    private fun listenAddNewThing() {
-        addNewThingDialog.onAddNewThingClick {
-
-        }
-    }
-
-    private fun listenSelectedFilter() {
-        preferencesScreen.
-    }*/
 }

@@ -3,17 +3,25 @@ package net.anything.ui.things
 import android.app.Activity
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import net.anything.anythingapp.R
 import net.anything.domain.entity.ShowThingEntity
 import net.anything.ui.MainActivity
+import net.anything.ui.filter.OnFilterPreferenceClickListener
 import net.anything.ui.things.view.adapter.ThingSwipeHelper
+import net.anything.ui.things.view.item.OnThingClickListener
+import net.anything.utils.KEY_THING
 import net.anything.utils.getActivity
 import net.anything.utils.getMainActivity
+import net.anything.utils.transactions.Screens
 
 class ThingsFragment : Fragment() {
 
@@ -28,6 +36,10 @@ class ThingsFragment : Fragment() {
 
     private val thingsView by lazy { viewModel.screenBuilder.thingsView }
 
+    val filterListener = OnFilterPreferenceClickListener { filter ->
+        collectSortedThings(filter)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,7 +50,7 @@ class ThingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         setSwipeAction()
-        collectThings()
+        collectAllThings()
     }
 
     override fun onResume() {
@@ -51,13 +63,31 @@ class ThingsFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun collectThings() {
-        viewModel.thingsFlow.onEach(::submitThings).launchIn(lifecycleScope)
+    private fun collectAllThings() {
+        viewModel.thingsFlow.collectThings()
     }
 
-    private fun submitThings(things: List<ShowThingEntity>) {
-        thingsView.submit(things)
+    private fun collectSortedThings(filter: String) {
+        viewModel.sortedThingsFlow(filter).collectThings()
     }
+
+    private fun Flow<List<ShowThingEntity>>.collectThings() {
+        lifecycleScope.launch {
+            collect { things ->
+                submitThings(things) {
+                    transactionsListener.begin(
+                        Screens.UPDATE_THING,
+                        bundleOf(KEY_THING to it)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun submitThings(
+        things: List<ShowThingEntity>,
+        listener: OnThingClickListener?
+    ) = thingsView.submit(things, listener)
 
     private fun setSwipeAction() {
         ThingSwipeHelper(viewModel::deleteThing)

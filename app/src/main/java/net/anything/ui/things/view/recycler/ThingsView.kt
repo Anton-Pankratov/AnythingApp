@@ -1,4 +1,4 @@
-package net.anything.ui.things.view
+package net.anything.ui.things.view.recycler
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import net.anything.domain.entity.ShowThingEntity
 import net.anything.ui.things.view.adapter.ThingsAdapter
+import net.anything.ui.things.view.item.OnThingClickListener
 import net.anything.utils.uiBuilder.MatchParent
 import net.anything.utils.uiBuilder.WrapContent
 
@@ -22,8 +23,14 @@ class ThingsView @JvmOverloads constructor(
         setParams()
     }
 
-    fun submit(things: List<ShowThingEntity>) {
-        thingsAdapter.submitList(things)
+    fun submit(
+        things: List<ShowThingEntity>,
+        listener: OnThingClickListener?
+    ) {
+        thingsAdapter.apply {
+            submitList(things)
+            setThingClickListener(listener)
+        }
     }
 
     private fun setParams() {

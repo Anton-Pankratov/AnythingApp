@@ -9,11 +9,11 @@ interface PreferenceBuilder {
 
     fun PreferenceScreen.formScreen(context: Context)
 
-    fun PreferenceScreen.addPreferences(context: Context, fieldTag: String, title: String, )
+    fun PreferenceScreen.addPreferences(context: Context, field: String)
 
     fun PreferenceCategory.add(preferences: List<Preference>)
 
-    fun Context.PreferencesCategory(fieldTag: String, name: String, ): PreferenceCategory
+    fun Context.PreferencesCategory(name: String): PreferenceCategory
 
-    fun Context.Preference(fieldTag: String, number: String, ): Preference
+    fun Context.Preference(tag: SignPreference): Preference
 }

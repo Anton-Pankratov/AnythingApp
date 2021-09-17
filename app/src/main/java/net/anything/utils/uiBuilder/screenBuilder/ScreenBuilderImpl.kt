@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
-import net.anything.ui.things.view.ThingsView
+import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.uiBuilder.viewGenerator.ViewGenerator
 
 class ScreenBuilderImpl(
@@ -18,7 +18,7 @@ class ScreenBuilderImpl(
     /**
      * Fragment Container
      * in [net.anything.ui.MainActivity]
-     * and [net.anything.ui.filter.FilterFragment]
+     * and [net.anything.ui.filter.FilterPreferenceFragment]
      */
 
     override fun buildFragmentContainer(): View {
@@ -55,7 +55,7 @@ class ScreenBuilderImpl(
             ConstraintSet().apply {
                 viewGenerator.addNewItemButton.let { view ->
                     view.setOnClickListener {
-                        listener.begin(Screens.NEW_THING)
+                        listener.begin(Screens.NEW_THING, null)
                     }
                     add(view, this) {
                         connectToParentStart(view)

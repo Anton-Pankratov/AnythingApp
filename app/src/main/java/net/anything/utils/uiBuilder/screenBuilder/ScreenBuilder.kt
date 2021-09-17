@@ -5,7 +5,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import net.anything.utils.transactions.OnTransaction
-import net.anything.ui.things.view.ThingsView
+import net.anything.ui.things.view.recycler.ThingsView
 
 interface ScreenBuilder {
 

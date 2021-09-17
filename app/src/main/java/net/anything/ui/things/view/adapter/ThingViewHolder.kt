@@ -3,7 +3,8 @@ package net.anything.ui.things.view.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.anything.domain.entity.ShowThingEntity
-import net.anything.ui.things.view.ThingItem
+import net.anything.ui.things.view.item.OnThingClickListener
+import net.anything.ui.things.view.item.ThingItem
 
 class ThingViewHolder(
     private val view: ThingItem
@@ -14,9 +15,10 @@ class ThingViewHolder(
 
     fun onBind(
         thing: ShowThingEntity?,
+        listener: OnThingClickListener?
     ) {
         this.thing = thing
-        view.create(thing)
+        view.create(thing, listener)
     }
 
     companion object {

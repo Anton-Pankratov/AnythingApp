@@ -3,15 +3,13 @@ package net.anything.utils.uiBuilder.viewGenerator
 import android.view.Menu
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import net.anything.domain.entity.ShowSign
-import net.anything.domain.entity.ShowThingEntity
 import net.anything.utils.transactions.OnTransaction
-import net.anything.ui.things.view.ThingItem
-import net.anything.ui.things.view.ThingsView
+import net.anything.ui.things.view.item.ThingItem
+import net.anything.ui.things.view.recycler.ThingsView
 
 interface ViewGenerator {
 
@@ -37,9 +35,15 @@ interface ViewGenerator {
      * Things Fragment
      */
 
+    // Button
+
     val addNewItemButton: MaterialButton
 
+    // Recycler View
+
     val thingsView: ThingsView
+
+    // Item for Recycler View
 
     fun createThingItem(signs: List<ShowSign?>): ThingItem
 
@@ -47,7 +51,9 @@ interface ViewGenerator {
 
     fun createThingSign(header: String?, value: String?): TextView?
 
-    fun createDeleteIcon(thing: ShowThingEntity?): ImageView
+    /**
+     * Common
+     */
 
     fun generateId(): Int
 
@@ -56,7 +62,6 @@ interface ViewGenerator {
     /**
      * Create Thing Fragment
      */
-
 
     fun View.setLayoutParams(width: Int, height: Int)
 

@@ -1,4 +1,4 @@
-package net.anything.ui.things.view
+package net.anything.ui.things.view.item
 
 import android.content.Context
 import android.util.AttributeSet
@@ -23,21 +23,38 @@ class ThingItem @JvmOverloads constructor(
         setParams()
     }
 
-    fun create(thing: ShowThingEntity?) {
+    fun create(thing: ShowThingEntity?, listener: OnThingClickListener?) {
         with(thing) {
             viewGenerator.apply {
                 addView(createThingHeader(this@with?.id))
-                addView(this@with?.let { viewGenerator.createThingItem(it.getSigns()) })
+                addView(this@with?.let {
+                    viewGenerator.createThingItem(it.getSigns())
+                })
+                setOnThingClick(thing, listener)
             }
         }
     }
 
     private fun setParams() {
         orientation = VERTICAL
-        layoutParams = LayoutParams(MatchParent, WrapContent).apply {
-            with(context) {
-                setMargins(size16dp(), size6dp(), size16dp(), size6dp())
+        layoutParams = LayoutParams(MatchParent, WrapContent)
+            .apply {
+                with(context) {
+                    setMargins(
+                        size16dp(), size6dp(),
+                        size16dp(), size6dp()
+                    )
+                }
             }
+    }
+
+    private fun setOnThingClick(
+        thing: ShowThingEntity?,
+        listener: OnThingClickListener?
+    ) {
+        setOnClickListener(null)
+        setOnClickListener {
+            listener?.onClick(thing)
         }
     }
 }

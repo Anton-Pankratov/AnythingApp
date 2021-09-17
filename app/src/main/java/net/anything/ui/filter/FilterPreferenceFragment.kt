@@ -11,10 +11,11 @@ import net.anything.anythingapp.R
 import net.anything.domain.di.locateLazy
 import net.anything.utils.getMainActivity
 import net.anything.utils.uiBuilder.preference.PreferenceBuilder
+import net.anything.utils.uiBuilder.preference.SignKeys
 
-class FilterFragment : PreferenceFragmentCompat() {
+class FilterPreferenceFragment : PreferenceFragmentCompat() {
 
-    private val viewModel: FilterViewModel by viewModels()
+    private val viewModel: FilterPreferenceViewModel by viewModels()
 
     private val preferencesBuilder: PreferenceBuilder by locateLazy()
 
@@ -38,15 +39,14 @@ class FilterFragment : PreferenceFragmentCompat() {
             preferencesBuilder.apply {
                 createPreferenceScreen(context).apply {
                     formScreen(this@with.context)
-                    this@FilterFragment.preferenceScreen = this
+                    this@FilterPreferenceFragment.preferenceScreen = this
                 }
             }
         }
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-
-
+        preference?.key?.filterOn(activity?.getMainActivity()?.filterListener())
         return super.onPreferenceTreeClick(preference)
     }
 
@@ -57,7 +57,11 @@ class FilterFragment : PreferenceFragmentCompat() {
         }
     }
 
+    private fun String.filterOn(listener: OnFilterPreferenceClickListener?) {
+        listener?.onClick(this)
+    }
+
     companion object {
-        fun getInstance() = FilterFragment()
+        fun getInstance() = FilterPreferenceFragment()
     }
 }
