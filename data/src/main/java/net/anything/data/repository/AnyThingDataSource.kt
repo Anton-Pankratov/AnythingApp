@@ -8,7 +8,7 @@ import net.anything.domain.entity.ShowThingEntity
 
 interface AnyThingDataSource {
 
-    val thingsFlow: Flow<List<ShowThingEntity>>
+    val thingsFlow: Flow<List<ShowThingEntity>>?
 
     suspend fun saveThing(thing: ShowThingEntity)
 

@@ -4,26 +4,26 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import net.anything.domain.di.locateLazy
 import net.anything.domain.entity.ShowThingEntity
-import net.anything.domain.usecases.DeleteThingUseCase
-import net.anything.domain.usecases.FlowThingsUseCase
+import net.anything.domain.usecases.room.RoomDeleteThingUseCase
+import net.anything.domain.usecases.room.RoomFlowThingsUseCase
 import net.anything.ui.base.BaseViewModel
 import net.anything.utils.uiBuilder.preference.SignKeys
 
 class ThingsViewModel : BaseViewModel() {
 
-    private val flowUseCase: FlowThingsUseCase by locateLazy()
-    private val deleteUseCase: DeleteThingUseCase by locateLazy()
+    private val flowUseCaseFlowThingsUseCase: RoomFlowThingsUseCase by locateLazy()
+    private val deleteUseCaseDeleteThingUseCase: RoomDeleteThingUseCase by locateLazy()
 
-    val thingsFlow = flowUseCase.invoke()
+    val thingsFlow = flowUseCaseFlowThingsUseCase.invoke()
 
     fun deleteThing(thing: ShowThingEntity) {
         scope.launch {
-            deleteUseCase.invoke(thing)
+            deleteUseCaseDeleteThingUseCase.invoke(thing)
         }
     }
 
     fun sortedThingsFlow(filter: String) =
-        flowUseCase.invoke().map { things ->
+        flowUseCaseFlowThingsUseCase.invoke()?.map { things ->
             things.sortedBy {
                 when (filter) {
                     SignKeys.CATEGORY_ONE.key -> it.sign1?.header

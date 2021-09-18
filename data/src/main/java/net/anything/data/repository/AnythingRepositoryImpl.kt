@@ -9,7 +9,7 @@ class AnythingRepositoryImpl : AnythingRepository {
 
     private val dataSource: AnyThingDataSource by locateLazy()
 
-    override val thingsFlow: Flow<List<ShowThingEntity>>
+    override val thingsFlow: Flow<List<ShowThingEntity>>?
         get() = dataSource.thingsFlow
 
     override suspend fun saveThing(thing: ShowThingEntity) {

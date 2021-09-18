@@ -1,4 +1,4 @@
-package net.anything.data.dao
+package net.anything.data.databases.room
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

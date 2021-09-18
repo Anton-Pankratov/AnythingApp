@@ -1,15 +1,15 @@
 package net.anything.domain.di
 
-import net.anything.domain.usecases.DeleteThingUseCase
-import net.anything.domain.usecases.FlowThingsUseCase
-import net.anything.domain.usecases.SaveThingUseCase
-import net.anything.domain.usecases.UpdateThingUseCase
+import net.anything.domain.usecases.room.RoomDeleteThingUseCase
+import net.anything.domain.usecases.room.RoomFlowThingsUseCase
+import net.anything.domain.usecases.room.RoomSaveThingUseCase
+import net.anything.domain.usecases.room.RoomUpdateThingUseCase
 
 fun RegisterDomainModule() {
     ServiceLocator.apply {
-        register(FlowThingsUseCase())
-        register(SaveThingUseCase())
-        register(UpdateThingUseCase())
-        register(DeleteThingUseCase())
+        register(RoomFlowThingsUseCase())
+        register(RoomSaveThingUseCase())
+        register(RoomUpdateThingUseCase())
+        register(RoomDeleteThingUseCase())
     }
 }

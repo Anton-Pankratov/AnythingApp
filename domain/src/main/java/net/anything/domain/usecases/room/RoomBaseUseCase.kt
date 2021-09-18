@@ -1,9 +1,10 @@
-package net.anything.domain.usecases
+package net.anything.domain.usecases.room
 
 import net.anything.domain.di.locateLazy
+import net.anything.domain.entity.ShowThingEntity
 import net.anything.domain.repository.AnythingRepository
 
-abstract class BaseUseCase {
+abstract class RoomBaseUseCase {
 
     protected val repository: AnythingRepository by locateLazy()
 }

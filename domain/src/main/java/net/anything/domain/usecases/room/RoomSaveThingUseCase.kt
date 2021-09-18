@@ -1,8 +1,8 @@
-package net.anything.domain.usecases
+package net.anything.domain.usecases.room
 
 import net.anything.domain.entity.ShowThingEntity
 
-class SaveThingUseCase : BaseUseCase() {
+class RoomSaveThingUseCase : RoomBaseUseCase() {
 
     suspend operator fun invoke(thing: ShowThingEntity) = repository.saveThing(thing)
 }

@@ -64,11 +64,11 @@ class ThingsFragment : Fragment() {
     }
 
     private fun collectAllThings() {
-        viewModel.thingsFlow.collectThings()
+        viewModel.thingsFlow?.collectThings()
     }
 
     private fun collectSortedThings(filter: String) {
-        viewModel.sortedThingsFlow(filter).collectThings()
+        viewModel.sortedThingsFlow(filter)?.collectThings()
     }
 
     private fun Flow<List<ShowThingEntity>>.collectThings() {
