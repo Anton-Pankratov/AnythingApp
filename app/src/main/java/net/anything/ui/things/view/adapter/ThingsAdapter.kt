@@ -3,7 +3,6 @@ package net.anything.ui.things.view.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import net.anything.domain.entity.ShowThingEntity
-import net.anything.ui.things.view.item.OnThingClickListener
 
 class ThingsAdapter :
     ListAdapter<ShowThingEntity, ThingViewHolder>(ThingDiffCallback()) {

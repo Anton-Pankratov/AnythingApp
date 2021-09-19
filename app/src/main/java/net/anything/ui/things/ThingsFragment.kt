@@ -3,7 +3,10 @@ package net.anything.ui.things
 import android.app.Activity
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,15 +29,25 @@ class ThingsFragment : Fragment() {
     private val viewModel: ThingsViewModel by viewModels()
 
     private val transactionsListener
-        get() = (activity?.getActivity() as MainActivity).transactionsListener
+        get() = (activity?.getActivity() as MainActivity)
+            .transactionsListener
 
     private val root by lazy {
-        viewModel.screenBuilder.buildThingsScreen(transactionsListener) {
-            viewModel.deleteAllThings()
-        }
+        viewModel.screenBuilder
+            .buildThingsScreen(transactionsListener) {
+                viewModel.deleteAllThings()
+            }
     }
 
-    private val thingsView by lazy { viewModel.screenBuilder.thingsView }
+    private val placeholder
+        get() = viewModel.screenBuilder.placeholder
+
+    private val deleteAllThingsButton
+        get() = viewModel.screenBuilder.deleteAllThingsButton
+
+    private val thingsView by lazy {
+        viewModel.screenBuilder.thingsView
+    }
 
     val filterListener = OnFilterPreferenceClickListener { filter ->
         when (currentDbMode) {
@@ -108,13 +121,24 @@ class ThingsFragment : Fragment() {
         }
     }
 
-    private fun submit(things: List<ShowThingEntity>) =
+    private fun submit(things: List<ShowThingEntity>) {
         thingsView.submit(things) {
             transactionsListener.begin(
                 Screens.UPDATE_THING,
                 bundleOf(KEY_THING to it)
             )
         }
+        (root as ConstraintLayout).removeView(placeholder)
+        if (!things.isNullOrEmpty()) {
+            deleteAllThingsButton?.isVisible = true
+        } else {
+            viewModel.screenBuilder.apply {
+                (root as ConstraintLayout).removeView(placeholder)
+                (root as ConstraintLayout).addPlaceholder()
+            }
+        }
+    }
+
 
     private fun setSwipeAction() {
         ThingSwipeHelper(viewModel::deleteThing)

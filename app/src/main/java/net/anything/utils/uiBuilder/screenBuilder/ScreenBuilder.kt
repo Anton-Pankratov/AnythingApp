@@ -2,9 +2,12 @@ package net.anything.utils.uiBuilder.screenBuilder
 
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import com.google.android.material.button.MaterialButton
 import net.anything.ui.things.view.recycler.ThingsView
+import net.anything.utils.dbMode.DatabaseMode
 import net.anything.utils.dbMode.OnChangeDbModeListener
 import net.anything.utils.transactions.OnTransaction
 
@@ -30,6 +33,10 @@ interface ScreenBuilder {
 
     val thingsView: ThingsView
 
+    val placeholder: TextView?
+
+    var deleteAllThingsButton: MaterialButton?
+
     fun buildThingsScreen(
         onTransactionListener: OnTransaction,
         onDeleteAllListener: OnDeleteAllThingsClickListener
@@ -52,6 +59,8 @@ interface ScreenBuilder {
         constraintSet: ConstraintSet,
         connects: () -> Unit
     )
+
+    fun ConstraintLayout.addPlaceholder()
 
     /**
      * Create Thing Fragment

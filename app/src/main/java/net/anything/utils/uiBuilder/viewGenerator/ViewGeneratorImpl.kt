@@ -2,7 +2,6 @@ package net.anything.utils.uiBuilder.viewGenerator
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
@@ -11,11 +10,8 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.TypefaceCompat
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
-import net.anything.domain.entity.ShowSign
-import net.anything.ui.things.view.item.ThingItem
 import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.dbMode.DatabaseMode
 import net.anything.utils.dbMode.OnChangeDbModeListener
@@ -26,7 +22,6 @@ import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.MatchParent
 import net.anything.utils.uiBuilder.WrapContent
-import net.anything.utils.uiBuilder.size6dp
 import java.util.concurrent.atomic.AtomicInteger
 
 class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
@@ -133,34 +128,16 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         }
     }
 
-    // Item for Recycler View
+    // Placeholder
 
-    override fun createThingItem(signs: List<ShowSign?>): ThingItem {
-        return ThingItem(context).apply {
-            signs.forEach {
-                createThingSign(it?.header, it?.value).apply {
-                    if (this != null) addView(this)
-                }
-            }
+    override val emptyThingsPlaceholder: TextView =
+        TextView(context).apply {
+            id = generateId()
+            setLayoutParams(WrapContent, WrapContent)
+            text = resources.getString(
+                R.string.placeholder_no_things
+            )
         }
-    }
-
-    override fun createThingHeader(id: Int?): TextView {
-        return TextView(context).apply {
-            typeface = TypefaceCompat.create(context, Typeface.MONOSPACE, Typeface.BOLD_ITALIC)
-            "Thing #$id".let { header -> text = header }
-        }
-    }
-
-    override fun createThingSign(header: String?, value: String?): TextView? {
-        val signText = "$header : $value"
-        return if (!header.isNullOrEmpty() || !value.isNullOrEmpty()) {
-            TextView(context).apply {
-                setSignLayoutParams(WrapContent, WrapContent, context.size6dp())
-                text = signText
-            }
-        } else null
-    }
 
     /**
      * Common

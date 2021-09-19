@@ -2,10 +2,14 @@ package net.anything.utils.uiBuilder.screenBuilder
 
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
+import com.google.android.material.button.MaterialButton
 import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.dbMode.OnChangeDbModeListener
+import net.anything.utils.dbMode.currentDbMode
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
@@ -50,6 +54,10 @@ class ScreenBuilderImpl(
     override val thingsView: ThingsView
         get() = viewGenerator.thingsView
 
+    override var placeholder: TextView? = null
+
+    override var deleteAllThingsButton: MaterialButton? = null
+
     override fun buildThingsScreen(
         onTransactionListener: OnTransaction,
         onDeleteAllListener: ScreenBuilder.OnDeleteAllThingsClickListener
@@ -84,6 +92,8 @@ class ScreenBuilderImpl(
         with(constraintsMaker) {
             ConstraintSet().let { set ->
                 viewGenerator.apply {
+                    this@ScreenBuilderImpl.deleteAllThingsButton =
+                        deleteAllThingsButton
                     deleteAllThingsButton.let { deleteBtn ->
                         deleteBtn.setOnClickListener {
                             listener.onClick()
@@ -130,6 +140,29 @@ class ScreenBuilderImpl(
             constraintSet.apply {
                 setConstraints(this) {
                     connects.invoke()
+                }
+            }
+        }
+    }
+
+    override fun ConstraintLayout.addPlaceholder() {
+        with(constraintsMaker) {
+            ConstraintSet().let { set ->
+                viewGenerator.apply {
+                    emptyThingsPlaceholder.let { placeholder ->
+                        this@ScreenBuilderImpl.placeholder = placeholder
+                        add(placeholder, set) {
+                            set.apply {
+                                connectToParentEnd(placeholder)
+                                connectToParentStart(placeholder)
+                                connectToParentTop(placeholder)
+                                connectToBottomView(
+                                    placeholder, createNewThingButton
+                                )
+                            }
+                        }
+                        deleteAllThingsButton.isVisible = false
+                    }
                 }
             }
         }

@@ -17,4 +17,7 @@
     <string name="filter_names">Names</string>
     <string name="filter_sign">Sign %1$s</string>
 
+    <string name="placeholder_no_things">No things in Database</string>
+    <string name="item_empty_thing">Empty thing</string>
+
 </resources>

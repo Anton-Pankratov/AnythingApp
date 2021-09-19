@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="@dimen/margin16dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_center"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/field_sign_2"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin10dp"
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/header_1"
         app:layout_constraintStart_toStartOf="parent" />
@@ -77,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/field_sign_3"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin10dp"
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/header_2"
         app:layout_constraintStart_toStartOf="parent" />
@@ -106,7 +106,7 @@
         android:id="@+id/add_thing_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin10dp"
         tools:text="Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
