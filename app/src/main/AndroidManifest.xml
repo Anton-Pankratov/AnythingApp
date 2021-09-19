@@ -13,7 +13,8 @@
 
         <activity
             android:name="net.anything.ui.MainActivity"
-            android:theme="@style/Theme.AnythingApp">
+            android:theme="@style/Theme.AnythingApp"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -21,5 +22,4 @@
         </activity>
 
     </application>
-
 </manifest>

@@ -4,9 +4,9 @@ import android.view.Menu
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import net.anything.utils.transactions.OnTransaction
 import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.dbMode.OnChangeDbModeListener
+import net.anything.utils.transactions.OnTransaction
 
 interface ScreenBuilder {
 
@@ -20,9 +20,9 @@ interface ScreenBuilder {
      * Action Bar
      */
 
-    fun Menu.addDbChangeOption(listener: OnChangeDbModeListener)
-
     fun Menu.addFilterOption(listener: OnTransaction)
+
+    fun Menu.addDbChangeOption(listener: OnChangeDbModeListener)
 
     /**
      * Things Fragment
@@ -30,9 +30,20 @@ interface ScreenBuilder {
 
     val thingsView: ThingsView
 
-    fun buildThingsScreen(listener: OnTransaction): View
+    fun buildThingsScreen(
+        onTransactionListener: OnTransaction,
+        onDeleteAllListener: OnDeleteAllThingsClickListener
+    ): View
 
-    fun ConstraintLayout.addNewItemButton(listener: OnTransaction)
+    fun ConstraintLayout.addNewThingButton(listener: OnTransaction)
+
+    fun ConstraintLayout.addDeleteAllThingsButton(
+        listener: OnDeleteAllThingsClickListener
+    )
+
+    fun interface OnDeleteAllThingsClickListener {
+        fun onClick()
+    }
 
     fun ConstraintLayout.addThingsView()
 

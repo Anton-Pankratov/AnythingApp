@@ -1,13 +1,7 @@
 package net.anything.domain.di
 
-import net.anything.domain.usecases.room.DeleteThingUseCaseRoom
-import net.anything.domain.usecases.room.FlowThingsUseCaseRoom
-import net.anything.domain.usecases.room.SaveThingUseCaseRoom
-import net.anything.domain.usecases.room.UpdateThingUseCaseRoom
-import net.anything.domain.usecases.sql.DeleteThingUseCaseSql
-import net.anything.domain.usecases.sql.ReadThingsUseCaseSql
-import net.anything.domain.usecases.sql.SaveThingUseCaseSql
-import net.anything.domain.usecases.sql.UpdateThingUseCaseSql
+import net.anything.domain.usecases.room.*
+import net.anything.domain.usecases.sql.*
 
 fun RegisterDomainModule() {
     ServiceLocator.apply {
@@ -17,11 +11,13 @@ fun RegisterDomainModule() {
         register(SaveThingUseCaseRoom())
         register(UpdateThingUseCaseRoom())
         register(DeleteThingUseCaseRoom())
+        register(DeleteAllThingsUseCaseRoom())
 
         /** SqlOpenHelper */
         register(ReadThingsUseCaseSql())
-        register(SaveThingUseCaseSql())
+        register(CreateThingUseCaseSql())
         register(UpdateThingUseCaseSql())
         register(DeleteThingUseCaseSql())
+        register(DeleteAllThingsUseCaseSql())
     }
 }

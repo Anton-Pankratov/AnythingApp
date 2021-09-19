@@ -30,17 +30,19 @@ interface ViewGenerator {
      * Action Bar Settings
      */
 
-    fun Menu.addDbChange(listener: OnChangeDbModeListener)
-
     fun Menu.addFilter(listener: OnTransaction)
+
+    fun Menu.addDbChange(listener: OnChangeDbModeListener)
 
     /**
      * Things Fragment
      */
 
-    // Button
+    // Buttons
 
-    val addNewItemButton: MaterialButton
+    val createNewThingButton: MaterialButton
+
+    val deleteAllThingsButton: MaterialButton
 
     // Recycler View
 
@@ -67,5 +69,4 @@ interface ViewGenerator {
      */
 
     fun View.setLayoutParams(width: Int, height: Int)
-
 }

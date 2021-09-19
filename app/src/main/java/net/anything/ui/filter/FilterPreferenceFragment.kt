@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import net.anything.anythingapp.R
@@ -13,8 +12,6 @@ import net.anything.utils.getMainActivity
 import net.anything.utils.uiBuilder.preference.PreferenceBuilder
 
 class FilterPreferenceFragment : PreferenceFragmentCompat() {
-
-    private val viewModel: FilterPreferenceViewModel by viewModels()
 
     private val preferencesBuilder: PreferenceBuilder by locateLazy()
 

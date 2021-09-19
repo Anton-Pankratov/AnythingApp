@@ -24,4 +24,8 @@ class AnythingRepositoryImplRoom : AnythingRepositoryRoom {
     override suspend fun deleteThing(thing: ShowThingEntity) {
         dataSource.deleteThing(thing)
     }
+
+    override suspend fun deleteAllThings() {
+        dataSource.deleteAllThings()
+    }
 }

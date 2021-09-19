@@ -15,7 +15,6 @@ import net.anything.domain.entity.ShowThingEntity
 import net.anything.ui.MainActivity
 import net.anything.ui.filter.OnFilterPreferenceClickListener
 import net.anything.ui.things.view.adapter.ThingSwipeHelper
-import net.anything.ui.things.view.item.OnThingClickListener
 import net.anything.utils.KEY_THING
 import net.anything.utils.dbMode.*
 import net.anything.utils.getActivity
@@ -30,37 +29,27 @@ class ThingsFragment : Fragment() {
         get() = (activity?.getActivity() as MainActivity).transactionsListener
 
     private val root by lazy {
-        viewModel.screenBuilder.buildThingsScreen(transactionsListener)
+        viewModel.screenBuilder.buildThingsScreen(transactionsListener) {
+            viewModel.deleteAllThings()
+        }
     }
 
     private val thingsView by lazy { viewModel.screenBuilder.thingsView }
 
     val filterListener = OnFilterPreferenceClickListener { filter ->
-        when (currentUseDb) {
+        when (currentDbMode) {
             DatabaseMode.ROOM -> collectSortedThings(filter)
-            DatabaseMode.NATIVE -> {
-                lifecycleScope.launch {
-                    viewModel.sortedThingsSql(filter)
-                }
+            DatabaseMode.NATIVE -> lifecycleScope.launch {
+                submit(viewModel.sortedThingsSql(filter))
             }
         }
     }
 
-    val dbChangeModeListener = OnChangeDbModeListener { mode ->
-        currentUseDb = mode
+    private val dbChangeModeListener = OnChangeDbModeListener { mode ->
         when (mode) {
-            DatabaseMode.ROOM -> {
-                viewModel.thingsFlowRoom?.collectThings()
-            }
-            DatabaseMode.NATIVE -> {
-                lifecycleScope.launch {
-                    submitThings(viewModel.thingsSql()) {
-                        transactionsListener.begin(
-                            Screens.UPDATE_THING,
-                            bundleOf(KEY_THING to it)
-                        )
-                    }
-                }
+            DatabaseMode.ROOM -> viewModel.thingsFlowRoom?.collectThings()
+            DatabaseMode.NATIVE -> lifecycleScope.launch {
+                submit(viewModel.thingsSql())
             }
         }
     }
@@ -102,13 +91,8 @@ class ThingsFragment : Fragment() {
     private fun Flow<List<ShowThingEntity>>.collectThings() {
         lifecycleScope.launch {
             collect { things ->
-                if (currentUseDb == DatabaseMode.ROOM)
-                    submitThings(things) {
-                        transactionsListener.begin(
-                            Screens.UPDATE_THING,
-                            bundleOf(KEY_THING to it)
-                        )
-                    }
+                if (currentDbMode == DatabaseMode.ROOM)
+                    submit(things)
             }
         }
     }
@@ -117,22 +101,20 @@ class ThingsFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             changeDbModeEvent.collect { isNativeSql ->
                 if (isNativeSql) {
-                    submitThings(viewModel.thingsSql()) {
-                        transactionsListener.begin(
-                            Screens.UPDATE_THING,
-                            bundleOf(KEY_THING to it)
-                        )
-                    }
+                    submit(viewModel.thingsSql())
                     _changeDbModeEvent.tryEmit(false)
                 }
             }
         }
     }
 
-    private fun submitThings(
-        things: List<ShowThingEntity>,
-        listener: OnThingClickListener?
-    ) = thingsView.submit(things, listener)
+    private fun submit(things: List<ShowThingEntity>) =
+        thingsView.submit(things) {
+            transactionsListener.begin(
+                Screens.UPDATE_THING,
+                bundleOf(KEY_THING to it)
+            )
+        }
 
     private fun setSwipeAction() {
         ThingSwipeHelper(viewModel::deleteThing)

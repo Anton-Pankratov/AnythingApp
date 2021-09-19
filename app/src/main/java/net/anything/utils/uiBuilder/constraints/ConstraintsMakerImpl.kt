@@ -17,8 +17,8 @@ class ConstraintsMakerImpl : ConstraintsMaker {
         }
     }
 
-    override fun ConstraintSet.connectToUpperView(view: View, anchor: View) {
-        makeConnect(view.id, ConstraintSet.TOP, anchor.id, ConstraintSet.BOTTOM)
+    override fun ConstraintSet.connectToBottomView(view: View, anchor: View) {
+        makeConnect(view.id, ConstraintSet.BOTTOM, anchor.id, ConstraintSet.TOP)
     }
 
     override fun ConstraintSet.connectToParentTop(view: View) {

@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">AnythingApp</string>
 
-    <string name="button_add_new_thing">Add new thing</string>
+    <string name="button_create_new_thing">Create new thing</string>
+    <string name="button_delete_all_things">Delete all things</string>
     <string name="button_update_selected_thing">Update selected thing</string>
 
     <string name="field_sign_1">Sign #1</string>

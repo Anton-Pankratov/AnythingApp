@@ -12,4 +12,6 @@ interface AnythingDataSourceRoom {
     suspend fun updateThing(thing: ShowThingEntity)
 
     suspend fun deleteThing(thing: ShowThingEntity)
+
+    suspend fun deleteAllThings()
 }

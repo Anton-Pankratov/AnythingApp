@@ -3,7 +3,6 @@ package net.anything.data.databases.sql
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.provider.BaseColumns
 import net.anything.data.databases.sql.crud.ThingEntry
 
 class AnythingSqlDatabase(context: Context) :

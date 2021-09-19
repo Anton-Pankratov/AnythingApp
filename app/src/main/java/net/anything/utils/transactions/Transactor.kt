@@ -2,11 +2,9 @@ package net.anything.utils.transactions
 
 import android.view.View
 import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import net.anything.domain.entity.ShowThingEntity
 
 interface Transactor {
 

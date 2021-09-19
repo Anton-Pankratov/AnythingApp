@@ -19,7 +19,7 @@ import net.anything.ui.things.view.item.ThingItem
 import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.dbMode.DatabaseMode
 import net.anything.utils.dbMode.OnChangeDbModeListener
-import net.anything.utils.dbMode.currentUseDb
+import net.anything.utils.dbMode.currentDbMode
 import net.anything.utils.getPrimaryColor
 import net.anything.utils.getStringRes
 import net.anything.utils.transactions.OnTransaction
@@ -57,33 +57,6 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
      * Action Bar Settings
      */
 
-    override fun Menu.addDbChange(listener: OnChangeDbModeListener) {
-        add(
-            0, 1, Menu.NONE,
-            if (currentUseDb == DatabaseMode.ROOM) {
-                DatabaseMode.ROOM.name
-            } else {
-                DatabaseMode.NATIVE.name
-            }
-        ).apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            setOnMenuItemClickListener {
-                if (currentUseDb == DatabaseMode.ROOM) {
-                    DatabaseMode.NATIVE.apply {
-                        title = name
-                        listener.onChange(this)
-                    }
-                } else {
-                    DatabaseMode.ROOM.apply {
-                        title = name
-                        listener.onChange(this)
-                    }
-                }
-                return@setOnMenuItemClickListener true
-            }
-        }
-    }
-
     override fun Menu.addFilter(listener: OnTransaction) {
         add(0, 2, Menu.NONE, "Sort").apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
@@ -95,21 +68,58 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
         }
     }
 
+    override fun Menu.addDbChange(listener: OnChangeDbModeListener) {
+        add(0, 1, Menu.NONE, currentDbMode.name)
+            .apply {
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                setOnMenuItemClickListener {
+                    setBy(currentDbMode, listener)
+                    return@setOnMenuItemClickListener true
+                }
+            }
+    }
+
+    private fun MenuItem.setBy(mode: DatabaseMode, listener: OnChangeDbModeListener) {
+        when (mode) {
+            DatabaseMode.ROOM -> DatabaseMode.NATIVE.setFor(this, listener)
+            DatabaseMode.NATIVE -> DatabaseMode.ROOM.setFor(this, listener)
+        }
+    }
+
+    private fun DatabaseMode.setFor(menuItem: MenuItem, listener: OnChangeDbModeListener) {
+        menuItem.title = name
+        listener.onChange(this)
+        currentDbMode = this
+    }
+
     /**
      * Things Fragment
      */
 
-    // Button
+    // Buttons
 
-    override val addNewItemButton: MaterialButton by lazy {
+    override val createNewThingButton: MaterialButton by lazy {
         MaterialButton(context).apply {
             id = generateId()
             context.apply {
                 setLayoutParams(MatchParent, WrapContent)
                 tag = "create_thing"
-                text = getStringRes(R.string.button_add_new_thing)
+                text = getStringRes(R.string.button_create_new_thing)
                 background = getPrimaryColor()
                 setTextColor(Color.WHITE)
+            }
+        }
+    }
+
+    override val deleteAllThingsButton: MaterialButton by lazy {
+        MaterialButton(context).apply {
+            id = generateId()
+            context.apply {
+                setLayoutParams(MatchParent, WrapContent)
+                tag = "delete_thing"
+                text = getStringRes(R.string.button_delete_all_things)
+                background = null
+                setTextColor(Color.RED)
             }
         }
     }
@@ -119,6 +129,7 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
     override val thingsView: ThingsView by lazy {
         ThingsView(context).apply {
             id = generateId()
+            setLayoutParams(MatchParent, 0)
         }
     }
 

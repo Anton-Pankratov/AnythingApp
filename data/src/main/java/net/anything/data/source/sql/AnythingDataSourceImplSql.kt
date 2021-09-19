@@ -27,5 +27,9 @@ class AnythingDataSourceImplSql(
         crud.deleteThing(thing.toStored())
     }
 
+    override suspend fun deleteAllThings() {
+        crud.deleteAllThings()
+    }
+
     private fun ShowThingEntity.toStored() = mapper.toStoredThing(this)
 }

@@ -1,6 +1,5 @@
 package net.anything.data.source.sql
 
-import kotlinx.coroutines.flow.Flow
 import net.anything.domain.entity.ShowThingEntity
 
 interface AnythingDataSourceSql {
@@ -12,4 +11,6 @@ interface AnythingDataSourceSql {
     suspend fun updateThing(thing: ShowThingEntity)
 
     suspend fun deleteThing(thing: ShowThingEntity)
+
+    suspend fun deleteAllThings()
 }

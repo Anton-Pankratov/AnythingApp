@@ -15,5 +15,7 @@ interface ThingsCrud {
 
     suspend fun deleteThing(thing: StoredThingEntity)
 
+    suspend fun deleteAllThings()
+
     fun Crud.operate(cv: ContentValues, thingId: Int?)
 }

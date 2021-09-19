@@ -12,7 +12,7 @@ class CreateThingFragment : BaseDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        formActionButton(R.string.button_add_new_thing) {
+        formActionButton(R.string.button_create_new_thing) {
             viewModel.saveNewThing(getInputThing())
         }
     }

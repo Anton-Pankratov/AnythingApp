@@ -13,4 +13,5 @@ interface AnythingRepositoryRoom {
 
     suspend fun deleteThing(thing: ShowThingEntity)
 
+    suspend fun deleteAllThings()
 }

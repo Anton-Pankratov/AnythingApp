@@ -30,5 +30,7 @@ class AnythingDataSourceImplRoom(
         db.dao?.deleteThing(mapper.toStoredThing(thing))
     }
 
-
+    override suspend fun deleteAllThings() {
+        db.dao?.deleteAllThings()
+    }
 }

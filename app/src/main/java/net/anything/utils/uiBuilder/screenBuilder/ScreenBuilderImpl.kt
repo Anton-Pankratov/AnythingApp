@@ -4,11 +4,11 @@ import android.view.Menu
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import net.anything.ui.things.view.recycler.ThingsView
+import net.anything.utils.dbMode.OnChangeDbModeListener
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
-import net.anything.ui.things.view.recycler.ThingsView
-import net.anything.utils.dbMode.OnChangeDbModeListener
 import net.anything.utils.uiBuilder.viewGenerator.ViewGenerator
 
 class ScreenBuilderImpl(
@@ -30,15 +30,15 @@ class ScreenBuilderImpl(
      * Action Bar
      */
 
-    override fun Menu.addDbChangeOption(listener: OnChangeDbModeListener) {
-        viewGenerator.apply {
-            this@addDbChangeOption.addDbChange(listener)
-        }
-    }
-
     override fun Menu.addFilterOption(listener: OnTransaction) {
         viewGenerator.apply {
             this@addFilterOption.addFilter(listener)
+        }
+    }
+
+    override fun Menu.addDbChangeOption(listener: OnChangeDbModeListener) {
+        viewGenerator.apply {
+            this@addDbChangeOption.addDbChange(listener)
         }
     }
 
@@ -50,17 +50,21 @@ class ScreenBuilderImpl(
     override val thingsView: ThingsView
         get() = viewGenerator.thingsView
 
-    override fun buildThingsScreen(listener: OnTransaction): View {
+    override fun buildThingsScreen(
+        onTransactionListener: OnTransaction,
+        onDeleteAllListener: ScreenBuilder.OnDeleteAllThingsClickListener
+    ): View {
         return viewGenerator.root.apply {
-            addNewItemButton(listener)
+            addNewThingButton(onTransactionListener)
+            addDeleteAllThingsButton(onDeleteAllListener)
             addThingsView()
         }
     }
 
-    override fun ConstraintLayout.addNewItemButton(listener: OnTransaction) {
+    override fun ConstraintLayout.addNewThingButton(listener: OnTransaction) {
         with(constraintsMaker) {
             ConstraintSet().apply {
-                viewGenerator.addNewItemButton.let { view ->
+                viewGenerator.createNewThingButton.let { view ->
                     view.setOnClickListener {
                         listener.begin(Screens.NEW_THING, null)
                     }
@@ -74,14 +78,42 @@ class ScreenBuilderImpl(
         }
     }
 
+    override fun ConstraintLayout.addDeleteAllThingsButton(
+        listener: ScreenBuilder.OnDeleteAllThingsClickListener
+    ) {
+        with(constraintsMaker) {
+            ConstraintSet().let { set ->
+                viewGenerator.apply {
+                    deleteAllThingsButton.let { deleteBtn ->
+                        deleteBtn.setOnClickListener {
+                            listener.onClick()
+                        }
+                        add(deleteBtn, set) {
+                            set.connectToParentStart(deleteBtn)
+                            set.connectToParentEnd(deleteBtn)
+                            set.connectToBottomView(
+                                deleteBtn, createNewThingButton
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun ConstraintLayout.addThingsView() {
         with(constraintsMaker) {
-            ConstraintSet().apply {
-                viewGenerator.thingsView.let { view ->
-                    add(view, this) {
-                        connectToParentTop(view)
-                        connectToParentStart(view)
-                        connectToParentEnd(view)
+            ConstraintSet().let { set ->
+                viewGenerator.apply {
+                    thingsView.let { thingsView ->
+                        add(thingsView, set) {
+                            set.connectToParentTop(thingsView)
+                            set.connectToParentStart(thingsView)
+                            set.connectToParentEnd(thingsView)
+                            set.connectToBottomView(
+                                thingsView, deleteAllThingsButton
+                            )
+                        }
                     }
                 }
             }

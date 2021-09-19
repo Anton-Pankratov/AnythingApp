@@ -10,7 +10,7 @@ interface ConstraintsMaker {
         constraintSet: ConstraintSet, connects: () -> Unit
     ): ConstraintSet
 
-    fun ConstraintSet.connectToUpperView(view: View, anchor: View)
+    fun ConstraintSet.connectToBottomView(view: View, anchor: View)
 
     fun ConstraintSet.connectToParentTop(view: View)
 

@@ -9,7 +9,7 @@ class AnythingRepositoryImplSql : AnythingRepositorySql {
 
     private val dataSource: AnythingDataSourceSql by locateLazy()
 
-    override suspend fun saveThing(thing: ShowThingEntity) {
+    override suspend fun createThing(thing: ShowThingEntity) {
         dataSource.saveThing(thing)
     }
 
@@ -23,5 +23,9 @@ class AnythingRepositoryImplSql : AnythingRepositorySql {
 
     override suspend fun deleteThing(thing: ShowThingEntity) {
         dataSource.deleteThing(thing)
+    }
+
+    override suspend fun deleteAllThings() {
+        dataSource.deleteAllThings()
     }
 }

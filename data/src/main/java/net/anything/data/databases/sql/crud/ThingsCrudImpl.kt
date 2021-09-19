@@ -1,20 +1,12 @@
 package net.anything.data.databases.sql.crud
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.SQLException
-import android.provider.BaseColumns
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import net.anything.data.databases.converter.Converter
 import net.anything.data.databases.sql.AnythingSqlDatabase
 import net.anything.data.entities.StoredSign
 import net.anything.data.entities.StoredThingEntity
-import net.anything.domain.di.locate
-import net.anything.domain.di.locateLazy
-import kotlin.math.sign
 
 class ThingsCrudImpl(
     private val db: AnythingSqlDatabase,
@@ -38,7 +30,7 @@ class ThingsCrudImpl(
         val db = db.readableDatabase
         val query = "SELECT * FROM ${ThingEntry.TABLE_NAME_THINGS}"
         val request = mutableListOf<StoredThingEntity>()
-        var cursor: Cursor? = null
+        val cursor: Cursor
         try {
             cursor = db.rawQuery(query, null)
         } catch (e: SQLException) {
@@ -47,29 +39,12 @@ class ThingsCrudImpl(
         }
         with(cursor) {
             if (moveToFirst()) {
-                do {
-                    val sign1 = converter.toStoredSign(getString(getColumnIndex(ThingEntry.COLUMN_NAME_SIGN1)))
-                    val sign2 = converter.toStoredSign(getString(getColumnIndex(ThingEntry.COLUMN_NAME_SIGN2)))
-                    val sign3 = converter.toStoredSign(getString(getColumnIndex(ThingEntry.COLUMN_NAME_SIGN3)))
-
-                    request.add(
-                        StoredThingEntity(
-                            id = getInt(getColumnIndex(ThingEntry.COLUMN_NAME_ID)),
-                            sign1 = StoredSign(
-                                header = sign1?.header,
-                                value = sign1?.value,
-                            ),
-                            sign2 = StoredSign(
-                                header = sign2?.header,
-                                value = sign2?.value,
-                            ),
-                            sign3 = StoredSign(
-                                header = sign3?.header,
-                                value = sign3?.value,
-                            ),
-                    ))
-                } while (cursor.moveToNext())
+                do request.add(formThing())
+                while (cursor.moveToNext())
             }
+            try {
+                close()
+            } catch (e: Exception) {}
         }
         return request.toList()
     }
@@ -97,6 +72,14 @@ class ThingsCrudImpl(
         }
     }
 
+    override suspend fun deleteAllThings() {
+        val db = db.writableDatabase
+        db.execSQL("DELETE FROM ${ThingEntry.TABLE_NAME_THINGS}")
+        try {
+            db.close()
+        } catch (e: Exception) {}
+    }
+
     override fun Crud.operate(cv: ContentValues, thingId: Int?) {
         val db = db.writableDatabase
         val whereClause = "${ThingEntry.COLUMN_NAME_ID}=$thingId"
@@ -104,13 +87,34 @@ class ThingsCrudImpl(
             db.apply {
                 when (this@operate) {
                     Crud.CREATE -> insert(tableName, null, cv)
-                    Crud.READ -> {}
                     Crud.UPDATE -> update(tableName, cv, whereClause, null)
                     Crud.DELETE -> delete(tableName, whereClause, null)
                 }
+                try {
+                    close()
+                } catch (e: Exception) {}
             }
         }
     }
 
     private fun StoredSign?.toJson() = converter.toJson(this)
+
+    private fun Cursor.formThing(): StoredThingEntity {
+        return StoredThingEntity(
+            id = getInt(getColumnIndex(ThingEntry.COLUMN_NAME_ID)),
+            sign1 = formSign(ThingEntry.COLUMN_NAME_SIGN1),
+            sign2 = formSign(ThingEntry.COLUMN_NAME_SIGN2),
+            sign3 = formSign(ThingEntry.COLUMN_NAME_SIGN3)
+        )
+    }
+
+    private fun Cursor.formSign(column: String): StoredSign {
+        converter.toStoredSign(getString(getColumnIndex(column)))
+            .apply {
+                return StoredSign(
+                    header = this?.header,
+                    value = this?.value
+                )
+            }
+    }
 }

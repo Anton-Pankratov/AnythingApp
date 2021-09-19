@@ -18,4 +18,7 @@ interface ThingsDao {
 
     @Delete
     suspend fun deleteThing(thing: StoredThingEntity)
+
+    @Query("DELETE FROM things")
+    suspend fun deleteAllThings()
 }

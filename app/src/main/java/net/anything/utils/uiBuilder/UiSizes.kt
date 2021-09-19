@@ -9,7 +9,6 @@ val MatchParent = UiSizes.MATCH_PARENT.size
 val WrapContent = UiSizes.WRAP_CONTENT.size
 
 fun Context.size6dp() = toDp(6)
-fun Context.size10dp() = toDp(10)
 fun Context.size16dp() = toDp(16)
 
 val Context.actionBarSize
