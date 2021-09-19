@@ -1,6 +1,6 @@
 package net.anything.data.databases.room
 
-interface AnythingDatabase {
+interface RoomHelper {
 
     val dao: ThingsDao?
 }

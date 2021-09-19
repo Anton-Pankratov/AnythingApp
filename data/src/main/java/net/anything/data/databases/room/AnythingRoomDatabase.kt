@@ -10,12 +10,12 @@ import net.anything.data.entities.StoredThingEntity
 
 @TypeConverters(ConverterImpl::class)
 @Database(entities = [StoredThingEntity::class], version = 1, exportSchema = false)
-abstract class AnythingDatabaseImpl : RoomDatabase(), AnythingDatabase {
+abstract class AnythingRoomDatabase : RoomDatabase(), RoomHelper {
 
     companion object {
         fun build(context: Context) =
             Room.databaseBuilder(
                 context,
-                AnythingDatabaseImpl::class.java, "database").build()
+                AnythingRoomDatabase::class.java, "database").build()
     }
 }

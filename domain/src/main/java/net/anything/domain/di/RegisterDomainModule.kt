@@ -1,15 +1,27 @@
 package net.anything.domain.di
 
-import net.anything.domain.usecases.room.RoomDeleteThingUseCase
-import net.anything.domain.usecases.room.RoomFlowThingsUseCase
-import net.anything.domain.usecases.room.RoomSaveThingUseCase
-import net.anything.domain.usecases.room.RoomUpdateThingUseCase
+import net.anything.domain.usecases.room.DeleteThingUseCaseRoom
+import net.anything.domain.usecases.room.FlowThingsUseCaseRoom
+import net.anything.domain.usecases.room.SaveThingUseCaseRoom
+import net.anything.domain.usecases.room.UpdateThingUseCaseRoom
+import net.anything.domain.usecases.sql.DeleteThingUseCaseSql
+import net.anything.domain.usecases.sql.ReadThingsUseCaseSql
+import net.anything.domain.usecases.sql.SaveThingUseCaseSql
+import net.anything.domain.usecases.sql.UpdateThingUseCaseSql
 
 fun RegisterDomainModule() {
     ServiceLocator.apply {
-        register(RoomFlowThingsUseCase())
-        register(RoomSaveThingUseCase())
-        register(RoomUpdateThingUseCase())
-        register(RoomDeleteThingUseCase())
+
+        /** Room */
+        register(FlowThingsUseCaseRoom())
+        register(SaveThingUseCaseRoom())
+        register(UpdateThingUseCaseRoom())
+        register(DeleteThingUseCaseRoom())
+
+        /** SqlOpenHelper */
+        register(ReadThingsUseCaseSql())
+        register(SaveThingUseCaseSql())
+        register(UpdateThingUseCaseSql())
+        register(DeleteThingUseCaseSql())
     }
 }

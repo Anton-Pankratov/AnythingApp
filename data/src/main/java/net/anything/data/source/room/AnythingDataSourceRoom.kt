@@ -1,9 +1,9 @@
-package net.anything.domain.repository
+package net.anything.data.source.room
 
 import kotlinx.coroutines.flow.Flow
 import net.anything.domain.entity.ShowThingEntity
 
-interface AnythingRepository {
+interface AnythingDataSourceRoom {
 
     val thingsFlow: Flow<List<ShowThingEntity>>?
 
@@ -12,5 +12,4 @@ interface AnythingRepository {
     suspend fun updateThing(thing: ShowThingEntity)
 
     suspend fun deleteThing(thing: ShowThingEntity)
-
 }

@@ -1,6 +1,6 @@
 package net.anything.domain.usecases.room
 
-class RoomFlowThingsUseCase : RoomBaseUseCase() {
+class FlowThingsUseCaseRoom : BaseUseCaseRoom() {
 
     operator fun invoke() = repository.thingsFlow
 }

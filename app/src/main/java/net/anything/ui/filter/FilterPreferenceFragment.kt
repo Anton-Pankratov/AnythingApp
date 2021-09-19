@@ -11,7 +11,6 @@ import net.anything.anythingapp.R
 import net.anything.domain.di.locateLazy
 import net.anything.utils.getMainActivity
 import net.anything.utils.uiBuilder.preference.PreferenceBuilder
-import net.anything.utils.uiBuilder.preference.SignKeys
 
 class FilterPreferenceFragment : PreferenceFragmentCompat() {
 

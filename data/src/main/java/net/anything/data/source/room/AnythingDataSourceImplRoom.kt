@@ -1,15 +1,15 @@
-package net.anything.data.repository
+package net.anything.data.source.room
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import net.anything.data.databases.room.AnythingDatabase
+import net.anything.data.databases.room.RoomHelper
 import net.anything.data.mapper.ThingMapper
 import net.anything.domain.entity.ShowThingEntity
 
-class AnythingDataSourceImpl(
-    private val db: AnythingDatabase,
+class AnythingDataSourceImplRoom(
+    private val db: RoomHelper,
     private val mapper: ThingMapper
-) : AnyThingDataSource {
+) : AnythingDataSourceRoom {
 
     override val thingsFlow: Flow<List<ShowThingEntity>>?
         get() = db.dao?.thingsFlow()?.map { things ->

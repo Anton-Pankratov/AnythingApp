@@ -10,6 +10,7 @@ import net.anything.domain.entity.ShowSign
 import net.anything.utils.transactions.OnTransaction
 import net.anything.ui.things.view.item.ThingItem
 import net.anything.ui.things.view.recycler.ThingsView
+import net.anything.utils.dbMode.OnChangeDbModeListener
 
 interface ViewGenerator {
 
@@ -28,6 +29,8 @@ interface ViewGenerator {
     /**
      * Action Bar Settings
      */
+
+    fun Menu.addDbChange(listener: OnChangeDbModeListener)
 
     fun Menu.addFilter(listener: OnTransaction)
 

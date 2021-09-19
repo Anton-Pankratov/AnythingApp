@@ -15,12 +15,15 @@ import androidx.core.graphics.TypefaceCompat
 import com.google.android.material.button.MaterialButton
 import net.anything.anythingapp.R
 import net.anything.domain.entity.ShowSign
+import net.anything.ui.things.view.item.ThingItem
+import net.anything.ui.things.view.recycler.ThingsView
+import net.anything.utils.dbMode.DatabaseMode
+import net.anything.utils.dbMode.OnChangeDbModeListener
+import net.anything.utils.dbMode.currentUseDb
 import net.anything.utils.getPrimaryColor
 import net.anything.utils.getStringRes
 import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
-import net.anything.ui.things.view.item.ThingItem
-import net.anything.ui.things.view.recycler.ThingsView
 import net.anything.utils.uiBuilder.MatchParent
 import net.anything.utils.uiBuilder.WrapContent
 import net.anything.utils.uiBuilder.size6dp
@@ -54,8 +57,35 @@ class ViewGeneratorImpl(private val context: Context) : ViewGenerator {
      * Action Bar Settings
      */
 
+    override fun Menu.addDbChange(listener: OnChangeDbModeListener) {
+        add(
+            0, 1, Menu.NONE,
+            if (currentUseDb == DatabaseMode.ROOM) {
+                DatabaseMode.ROOM.name
+            } else {
+                DatabaseMode.NATIVE.name
+            }
+        ).apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            setOnMenuItemClickListener {
+                if (currentUseDb == DatabaseMode.ROOM) {
+                    DatabaseMode.NATIVE.apply {
+                        title = name
+                        listener.onChange(this)
+                    }
+                } else {
+                    DatabaseMode.ROOM.apply {
+                        title = name
+                        listener.onChange(this)
+                    }
+                }
+                return@setOnMenuItemClickListener true
+            }
+        }
+    }
+
     override fun Menu.addFilter(listener: OnTransaction) {
-        add(0, 1, Menu.NONE, "Sort").apply {
+        add(0, 2, Menu.NONE, "Sort").apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             setIcon(R.drawable.ic_filter)
             setOnMenuItemClickListener {

@@ -1,23 +1,24 @@
 package net.anything.data.repository
 
-import kotlinx.coroutines.flow.Flow
+import net.anything.data.source.sql.AnythingDataSourceSql
 import net.anything.domain.di.locateLazy
 import net.anything.domain.entity.ShowThingEntity
-import net.anything.domain.repository.AnythingRepository
+import net.anything.domain.repository.AnythingRepositorySql
 
-class AnythingRepositoryImpl : AnythingRepository {
+class AnythingRepositoryImplSql : AnythingRepositorySql {
 
-    private val dataSource: AnyThingDataSource by locateLazy()
-
-    override val thingsFlow: Flow<List<ShowThingEntity>>?
-        get() = dataSource.thingsFlow
+    private val dataSource: AnythingDataSourceSql by locateLazy()
 
     override suspend fun saveThing(thing: ShowThingEntity) {
         dataSource.saveThing(thing)
     }
 
+    override suspend fun readThings(): List<ShowThingEntity> {
+        return dataSource.readThings()
+    }
+
     override suspend fun updateThing(thing: ShowThingEntity) {
-        dataSource.updateThing(thing)
+        dataSource.saveThing(thing)
     }
 
     override suspend fun deleteThing(thing: ShowThingEntity) {

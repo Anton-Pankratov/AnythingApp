@@ -3,16 +3,31 @@ package net.anything.ui.dialog.update
 import kotlinx.coroutines.launch
 import net.anything.domain.di.locateLazy
 import net.anything.domain.entity.ShowThingEntity
-import net.anything.domain.usecases.room.RoomUpdateThingUseCase
+import net.anything.domain.usecases.room.UpdateThingUseCaseRoom
+import net.anything.domain.usecases.sql.UpdateThingUseCaseSql
 import net.anything.ui.dialog.base.BaseDialogViewModel
+import net.anything.utils.dbMode.DatabaseMode
+import net.anything.utils.dbMode._changeDbModeEvent
+import net.anything.utils.dbMode.currentUseDb
 
 class UpdateThingViewModel : BaseDialogViewModel() {
 
-    private val updateUseCaseUpdateThingUseCase: RoomUpdateThingUseCase by locateLazy()
+    private val updateUseCaseRoom: UpdateThingUseCaseRoom by locateLazy()
+    private val updateUseCaseSql: UpdateThingUseCaseSql by locateLazy()
 
     fun updateThing(thing: ShowThingEntity?) {
         scope.launch {
-            if (thing != null) updateUseCaseUpdateThingUseCase.invoke(thing)
+            if (thing != null) {
+                when (currentUseDb) {
+                    DatabaseMode.ROOM -> {
+                        updateUseCaseRoom.invoke(thing)
+                    }
+                    DatabaseMode.NATIVE -> {
+                        updateUseCaseSql.invoke(thing)
+                        _changeDbModeEvent.tryEmit(true)
+                    }
+                }
+            }
         }
     }
 }

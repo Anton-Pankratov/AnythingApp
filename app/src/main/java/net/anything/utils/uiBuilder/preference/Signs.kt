@@ -3,7 +3,7 @@ package net.anything.utils.uiBuilder.preference
 import androidx.annotation.DrawableRes
 import net.anything.anythingapp.R
 
-enum class SignKeys(val key: String) {
+enum class SignKey(val key: String) {
     CATEGORY_ONE(Signs.FIELD_CATEGORY.keyOf(Signs.SIGN_ONE)),
     CATEGORY_TWO(Signs.FIELD_CATEGORY.keyOf(Signs.SIGN_TWO)),
     CATEGORY_THREE(Signs.FIELD_CATEGORY.keyOf(Signs.SIGN_THREE)),

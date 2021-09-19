@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import net.anything.utils.transactions.OnTransaction
 import net.anything.ui.things.view.recycler.ThingsView
+import net.anything.utils.dbMode.OnChangeDbModeListener
 
 interface ScreenBuilder {
 
@@ -18,6 +19,8 @@ interface ScreenBuilder {
     /**
      * Action Bar
      */
+
+    fun Menu.addDbChangeOption(listener: OnChangeDbModeListener)
 
     fun Menu.addFilterOption(listener: OnTransaction)
 

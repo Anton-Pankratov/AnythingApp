@@ -8,6 +8,7 @@ import net.anything.utils.transactions.OnTransaction
 import net.anything.utils.transactions.Screens
 import net.anything.utils.uiBuilder.constraints.ConstraintsMaker
 import net.anything.ui.things.view.recycler.ThingsView
+import net.anything.utils.dbMode.OnChangeDbModeListener
 import net.anything.utils.uiBuilder.viewGenerator.ViewGenerator
 
 class ScreenBuilderImpl(
@@ -28,6 +29,12 @@ class ScreenBuilderImpl(
     /**
      * Action Bar
      */
+
+    override fun Menu.addDbChangeOption(listener: OnChangeDbModeListener) {
+        viewGenerator.apply {
+            this@addDbChangeOption.addDbChange(listener)
+        }
+    }
 
     override fun Menu.addFilterOption(listener: OnTransaction) {
         viewGenerator.apply {
